@@ -1,0 +1,14 @@
+node_modules
+dist
+build
+.env
+.env.local
+.env.*.local
+*.log
+.pnpm-debug.log*
+.idea
+.vscode
+
+# Windows reserved names (sometimes created by npm/pnpm)
+nul
+NUL

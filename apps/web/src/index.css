@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --papyrus-bg: #f5f0e8;
+  --papyrus-surface: #ffffff;
+  --papyrus-text: #1a1a1a;
+  --papyrus-gold: #b8922a;
+  --papyrus-gold-light: #d9be6c;
+  --papyrus-border: #e6dccb;
+  --papyrus-danger: #b42318;
+  --papyrus-success: #2f6b3f;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply h-full scroll-smooth bg-bg text-primary antialiased;
+  }
+
+  body,
+  #root {
+    @apply min-h-full;
+  }
+
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(217, 190, 108, 0.24), transparent 34rem),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(245, 240, 232, 0.92)),
+      var(--papyrus-bg);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading tracking-tight text-primary;
+  }
+
+  button,
+  a,
+  input {
+    @apply transition duration-200 ease-out;
+  }
+
+  ::selection {
+    background: rgba(184, 146, 42, 0.24);
+  }
+}
+
+@layer components {
+  .paper-panel {
+    @apply border border-border/80 bg-surface/90 shadow-papyrus backdrop-blur;
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  }
+}

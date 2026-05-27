@@ -1,0 +1,224 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Usuarios ───────────────────────────────────────────
+
+model User {
+  id           String    @id @default(uuid())
+  username     String    @unique
+  passwordHash String    @map("password_hash")
+  displayName  String    @map("display_name")
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  lastLogin    DateTime? @map("last_login")
+
+  sales          Sale[]
+  stockMovements StockMovement[]
+
+  @@map("users")
+}
+
+// ─── Categorías ─────────────────────────────────────────
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  icon      String?
+  color     String?  @default("#B8922A")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  products Product[]
+
+  @@map("categories")
+}
+
+// ─── Productos ──────────────────────────────────────────
+
+model Product {
+  id            String   @id @default(uuid())
+  name          String
+  description   String?  @db.Text
+  categoryId    String?  @map("category_id")
+  isbn          String?  @unique
+  author        String?
+  publisher     String?
+  purchasePrice Decimal  @map("purchase_price") @db.Decimal(10, 2)
+  salePrice     Decimal  @map("sale_price") @db.Decimal(10, 2)
+  stock         Int      @default(0)
+  stockAlert    Int      @default(5) @map("stock_alert")
+  imageUrl      String?  @map("image_url")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  category       Category?       @relation(fields: [categoryId], references: [id])
+  saleItems      SaleItem[]
+  stockMovements StockMovement[]
+
+  @@map("products")
+}
+
+// ─── Ventas ─────────────────────────────────────────────
+
+model Sale {
+  id             String        @id @default(uuid())
+  ticketNumber   String        @unique @map("ticket_number")
+  userId         String        @map("user_id")
+  subtotal       Decimal       @db.Decimal(10, 2)
+  discountAmount Decimal       @default(0) @map("discount_amount") @db.Decimal(10, 2)
+  total          Decimal       @db.Decimal(10, 2)
+  paymentMethod  PaymentMethod @map("payment_method")
+  cashReceived   Decimal?      @map("cash_received") @db.Decimal(10, 2)
+  changeGiven    Decimal?      @map("change_given") @db.Decimal(10, 2)
+  notes          String?       @db.Text
+  status         SaleStatus    @default(COMPLETED)
+  cancelledBy    String?       @map("cancelled_by")
+  cancelReason   String?       @map("cancel_reason") @db.Text
+  cancelledAt    DateTime?     @map("cancelled_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  user    User       @relation(fields: [userId], references: [id])
+  items   SaleItem[]
+  returns Return[]
+
+  @@map("sales")
+}
+
+model SaleItem {
+  id             String       @id @default(uuid())
+  saleId         String       @map("sale_id")
+  productId      String?      @map("product_id")
+  serviceId      String?      @map("service_id")
+  itemType       SaleItemType @map("item_type")
+  productName    String       @map("product_name")
+  productPrice   Decimal      @map("product_price") @db.Decimal(10, 2)
+  quantity       Int
+  subtotal       Decimal      @db.Decimal(10, 2)
+  specifications Json?
+
+  sale    Sale     @relation(fields: [saleId], references: [id])
+  product Product? @relation(fields: [productId], references: [id])
+  service Service? @relation(fields: [serviceId], references: [id])
+
+  @@map("sale_items")
+}
+
+// ─── Servicios ──────────────────────────────────────────
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String
+  description String?  @db.Text
+  basePrice   Decimal  @map("base_price") @db.Decimal(10, 2)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  variants  ServiceVariant[]
+  saleItems SaleItem[]
+
+  @@map("services")
+}
+
+model ServiceVariant {
+  id          String   @id @default(uuid())
+  serviceId   String   @map("service_id")
+  name        String
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  service Service @relation(fields: [serviceId], references: [id])
+
+  @@map("service_variants")
+}
+
+// ─── Devoluciones ───────────────────────────────────────
+
+model Return {
+  id            String   @id @default(uuid())
+  saleId        String   @map("sale_id")
+  userId        String   @map("user_id")
+  reason        String   @db.Text
+  totalRefunded Decimal  @map("total_refunded") @db.Decimal(10, 2)
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  sale        Sale         @relation(fields: [saleId], references: [id])
+  returnItems ReturnItem[]
+
+  @@map("returns")
+}
+
+model ReturnItem {
+  id           String  @id @default(uuid())
+  returnId     String  @map("return_id")
+  productId    String  @map("product_id")
+  quantity     Int
+  refundAmount Decimal @map("refund_amount") @db.Decimal(10, 2)
+
+  return Return @relation(fields: [returnId], references: [id])
+
+  @@map("return_items")
+}
+
+// ─── Movimientos de Stock ───────────────────────────────
+
+model StockMovement {
+  id            String            @id @default(uuid())
+  productId     String            @map("product_id")
+  userId        String            @map("user_id")
+  type          StockMovementType
+  quantity      Int
+  reason        String?           @db.Text
+  previousStock Int               @map("previous_stock")
+  newStock      Int               @map("new_stock")
+  createdAt     DateTime          @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@map("stock_movements")
+}
+
+// ─── Configuración ──────────────────────────────────────
+
+model Setting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+// ─── Enums ──────────────────────────────────────────────
+
+enum PaymentMethod {
+  CASH
+  CARD
+  TRANSFER
+}
+
+enum SaleStatus {
+  COMPLETED
+  CANCELLED
+  RETURNED
+}
+
+enum SaleItemType {
+  PRODUCT
+  SERVICE
+}
+
+enum StockMovementType {
+  IN
+  OUT
+  ADJUSTMENT
+}
