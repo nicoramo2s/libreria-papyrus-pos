@@ -24,12 +24,12 @@ export default function ProductsPage() {
   const [limit, setLimit] = useState(20);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
-  // Debounce search por 250ms
+  // Debounce search por 500ms
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput);
       setPage(1);
-    }, 250);
+    }, 500);
     return () => clearTimeout(timer);
   }, [searchInput]);
 
@@ -149,34 +149,9 @@ export default function ProductsPage() {
     uploadImage({ productId, file });
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6">
-        {/* Table skeleton */}
-        <div className="flex h-96 items-center justify-center rounded-2xl border border-border bg-surface/60">
-          <div className="flex flex-col items-center gap-3">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-gold border-t-transparent" />
-            <p className="text-sm text-primary/50">Cargando productos…</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex h-96 items-center justify-center">
-        <div className="rounded-2xl border border-danger/20 bg-danger/5 p-6 text-center">
-          <p className="text-sm font-semibold text-danger">Error al cargar productos</p>
-          <p className="mt-1 text-xs text-danger/60">Verificá la conexión con el servidor.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
-      {/* Filters bar */}
+      {/* Filters bar — always mounted so the search input never loses focus */}
       <section className="rounded-2xl border border-border/80 bg-surface/90 px-4 py-3 shadow-papyrus-sm">
         <div className="flex flex-wrap items-center gap-3">
           <div className="min-w-[160px] flex-1">
@@ -254,70 +229,86 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Products Table */}
-      <ProductTable
-        products={products}
-        onEdit={handleEditProduct}
-        onDelete={handleDeleteProduct}
-        onImageUpload={handleImageUpload}
-        isLoading={isCreating || isUpdating || isDeletingMutation || isUploading}
-      />
-
-      {/* Pagination */}
-      {products.length > 0 && (
-        <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border/80 bg-surface/90 px-5 py-3 shadow-papyrus-sm">
-          <p className="text-sm text-primary/50">
-            <span className="font-semibold text-primary">{totalProducts}</span>{' '}
-            producto{totalProducts !== 1 ? 's' : ''} en total
-          </p>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="secondary"
-              size="sm"
-              disabled={page <= 1}
-              onClick={() => handlePageChange(page - 1)}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-
-            {/* Page numbers */}
-            <div className="flex items-center gap-1">
-              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                const pageNum = i + 1;
-                const isActive = pageNum === page;
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => handlePageChange(pageNum)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-semibold transition ${
-                      isActive
-                        ? 'bg-primary text-white shadow-papyrus-sm'
-                        : 'text-primary/55 hover:bg-gold/10 hover:text-primary'
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
-              {totalPages > 5 && (
-                <span className="px-1 text-sm text-primary/35">…</span>
-              )}
-            </div>
-
-            <Button
-              variant="secondary"
-              size="sm"
-              disabled={page >= totalPages}
-              onClick={() => handlePageChange(page + 1)}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+      {/* Content area — only this section changes, filters stay mounted */}
+      {isLoading && !response ? (
+        /* Initial loading skeleton */
+        <div className="flex h-96 items-center justify-center rounded-2xl border border-border bg-surface/60">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-gold border-t-transparent" />
+            <p className="text-sm text-primary/50">Cargando productos…</p>
           </div>
         </div>
-      )}
+      ) : error ? (
+        /* Error state */
+        <div className="flex h-96 items-center justify-center">
+          <div className="rounded-2xl border border-danger/20 bg-danger/5 p-6 text-center">
+            <p className="text-sm font-semibold text-danger">Error al cargar productos</p>
+            <p className="mt-1 text-xs text-danger/60">Verificá la conexión con el servidor.</p>
+          </div>
+        </div>
+      ) : products.length > 0 ? (
+        <>
+          <ProductTable
+            products={products}
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteProduct}
+            onImageUpload={handleImageUpload}
+            isLoading={isCreating || isUpdating || isDeletingMutation || isUploading}
+          />
 
-      {/* Empty state */}
-      {products.length === 0 && !isLoading && !error && (
+          {/* Pagination */}
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-border/80 bg-surface/90 px-5 py-3 shadow-papyrus-sm">
+            <p className="text-sm text-primary/50">
+              <span className="font-semibold text-primary">{totalProducts}</span>{' '}
+              producto{totalProducts !== 1 ? 's' : ''} en total
+            </p>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={page <= 1}
+                onClick={() => handlePageChange(page - 1)}
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+
+              {/* Page numbers */}
+              <div className="flex items-center gap-1">
+                {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                  const pageNum = i + 1;
+                  const isActive = pageNum === page;
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => handlePageChange(pageNum)}
+                      className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-semibold transition ${
+                        isActive
+                          ? 'bg-primary text-white shadow-papyrus-sm'
+                          : 'text-primary/55 hover:bg-gold/10 hover:text-primary'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+                {totalPages > 5 && (
+                  <span className="px-1 text-sm text-primary/35">…</span>
+                )}
+              </div>
+
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={page >= totalPages}
+                onClick={() => handlePageChange(page + 1)}
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* Empty state */
         <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-border/80 bg-surface/60 px-6 py-16 text-center">
           <BookOpen className="h-12 w-12 text-primary/20" />
           <div>

@@ -57,9 +57,9 @@ export default function POSPage() {
   const servicesQuery = useServices();
   const createSale = useCreateSale();
 
-  // Debounce search with 250ms
+  // Debounce search with 500ms to avoid excessive API calls while typing
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => setDebouncedSearch(search.trim()), 250);
+    const timeoutId = window.setTimeout(() => setDebouncedSearch(search.trim()), 500);
     return () => window.clearTimeout(timeoutId);
   }, [search]);
 

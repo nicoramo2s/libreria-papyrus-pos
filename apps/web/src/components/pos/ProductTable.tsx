@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Plus, Search, PackageSearch, ChevronDown, ChevronUp, Hash } from 'lucide-react';
 import type { Product } from '@papyrus/shared';
-import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { cn } from '../../lib/utils';
@@ -60,28 +59,9 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
     </button>
   );
 
-  if (isLoading) {
-    return (
-      <div className="overflow-hidden rounded-2xl border border-border bg-surface/90 shadow-papyrus">
-        <div className="space-y-0 divide-y divide-border">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="flex animate-pulse items-center gap-3 px-3 py-2.5">
-              <div className="h-3.5 w-6 rounded bg-primary/10" />
-              <div className="h-3.5 flex-1 rounded bg-primary/10" />
-              <div className="h-3.5 w-20 rounded bg-primary/10" />
-              <div className="h-3.5 w-16 rounded bg-primary/10" />
-              <div className="h-5 w-10 rounded-md bg-primary/10" />
-              <div className="h-7 w-14 rounded-xl bg-primary/10" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="overflow-hidden rounded-2xl border border-border/80 bg-surface/90 shadow-papyrus">
-      {/* Search bar inside table header */}
+      {/* Search bar — always rendered so it never loses focus */}
       <div className="border-b border-border px-3 py-2">
         <div className="relative">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-primary/30" />
@@ -94,7 +74,21 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
         </div>
       </div>
 
-      {sorted.length === 0 ? (
+      {isLoading ? (
+        /* Skeleton loader — keeps search bar mounted above */
+        <div className="space-y-0 divide-y divide-border">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="flex animate-pulse items-center gap-3 px-3 py-2.5">
+              <div className="h-3.5 w-6 rounded bg-primary/10" />
+              <div className="h-3.5 flex-1 rounded bg-primary/10" />
+              <div className="h-3.5 w-20 rounded bg-primary/10" />
+              <div className="h-3.5 w-16 rounded bg-primary/10" />
+              <div className="h-5 w-10 rounded-md bg-primary/10" />
+              <div className="h-7 w-14 rounded-xl bg-primary/10" />
+            </div>
+          ))}
+        </div>
+      ) : sorted.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-2 px-6 py-10 text-center">
           <PackageSearch className="h-8 w-8 text-primary/20" />
           <div>
@@ -192,12 +186,14 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
         </div>
       )}
 
-      {/* Footer with count */}
-      <div className="border-t border-border/30 px-3 py-1.5">
-        <p className="text-[11px] text-primary/40">
-          <span className="font-semibold text-primary/60">{sorted.length}</span> producto{sorted.length !== 1 ? 's' : ''}
-        </p>
-      </div>
+      {/* Footer with count — hidden while loading */}
+      {!isLoading && (
+        <div className="border-t border-border/30 px-3 py-1.5">
+          <p className="text-[11px] text-primary/40">
+            <span className="font-semibold text-primary/60">{sorted.length}</span> producto{sorted.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
