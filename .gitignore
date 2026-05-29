@@ -12,3 +12,7 @@ build
 # Windows reserved names (sometimes created by npm/pnpm)
 nul
 NUL
+
+# Local Windows startup/shutdown scripts
+*.bat
+*.vbs
