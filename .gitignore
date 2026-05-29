@@ -16,3 +16,4 @@ NUL
 # Local Windows startup/shutdown scripts
 *.bat
 *.vbs
+pnpm-lock.yaml
