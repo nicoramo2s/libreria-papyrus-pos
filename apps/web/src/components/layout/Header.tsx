@@ -6,6 +6,7 @@ const titles: Record<string, { eyebrow: string; title: string }> = {
   '/pos': { eyebrow: 'Operación diaria', title: 'Punto de venta' },
   '/products': { eyebrow: 'Inventario vivo', title: 'Catálogo' },
   '/sales': { eyebrow: 'Historial comercial', title: 'Ventas' },
+  '/categories': { eyebrow: 'Clasificación editorial', title: 'Categorías' },
   '/reports': { eyebrow: 'Lectura del negocio', title: 'Reportes' },
   '/settings': { eyebrow: 'Administración', title: 'Ajustes' },
 };
