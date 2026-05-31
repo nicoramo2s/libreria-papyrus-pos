@@ -3,18 +3,46 @@ import { SaleItemType } from '@papyrus/shared';
 import type { CartItem as CartItemModel } from '../../store/cartStore';
 import { cn } from '../../lib/utils';
 
+import { useState, useCallback } from 'react';
+
 interface CartItemProps {
   item: CartItemModel;
   onIncrement: (id: string) => void;
   onDecrement: (id: string) => void;
+  onSetQuantity: (id: string, quantity: number) => void;
   onRemove: (id: string) => void;
 }
 
 const currency = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
 
-export function CartItem({ item, onIncrement, onDecrement, onRemove }: CartItemProps) {
+export function CartItem({ item, onIncrement, onDecrement, onSetQuantity, onRemove }: CartItemProps) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(String(item.quantity));
   const reachedStockLimit = item.maxStock !== undefined && item.quantity >= item.maxStock;
   const isService = item.itemType === SaleItemType.SERVICE;
+
+  const handleCommit = useCallback(() => {
+    const parsed = Number(draft);
+    if (!Number.isFinite(parsed) || parsed < 1) {
+      // Revert to actual quantity on invalid input
+      setDraft(String(item.quantity));
+    } else {
+      onSetQuantity(item.id, parsed);
+    }
+    setEditing(false);
+  }, [draft, item.id, item.quantity, onSetQuantity]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        handleCommit();
+      } else if (e.key === 'Escape') {
+        setDraft(String(item.quantity));
+        setEditing(false);
+      }
+    },
+    [handleCommit, item.quantity],
+  );
 
   return (
     <div className={cn(
@@ -32,7 +60,30 @@ export function CartItem({ item, onIncrement, onDecrement, onRemove }: CartItemP
           >
             <Minus className="h-2.5 w-2.5" />
           </button>
-          <span className="min-w-[1rem] text-center text-[11px] font-bold tabular-nums text-primary">{item.quantity}</span>
+          {editing ? (
+            <input
+              type="number"
+              min="1"
+              max={item.maxStock ?? undefined}
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              onBlur={handleCommit}
+              onKeyDown={handleKeyDown}
+              autoFocus
+              className="h-5 w-8 rounded border border-gold/50 bg-white px-0.5 text-center text-[11px] font-bold tabular-nums text-primary outline-none ring-1 ring-gold/30"
+            />
+          ) : (
+            <span
+              className="min-w-[1rem] cursor-text text-center text-[11px] font-bold tabular-nums text-primary hover:bg-bg/50 rounded px-0.5"
+              onClick={() => {
+                setDraft(String(item.quantity));
+                setEditing(true);
+              }}
+              title="Click para editar cantidad"
+            >
+              {item.quantity}
+            </span>
+          )}
           <button
             type="button"
             disabled={reachedStockLimit}
