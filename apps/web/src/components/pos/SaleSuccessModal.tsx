@@ -1,7 +1,8 @@
-import { CheckCircle2, ReceiptText, X } from 'lucide-react';
+import { CheckCircle2, Printer, ReceiptText, X } from 'lucide-react';
 import type { Sale } from '@papyrus/shared';
 import { Button } from '../ui/Button';
 import { Card, CardContent } from '../ui/Card';
+import { printTicket } from '../../lib/printTicket';
 
 interface SaleSuccessModalProps {
   sale: Sale | null;
@@ -36,7 +37,13 @@ export function SaleSuccessModal({ sale, onClose }: SaleSuccessModalProps) {
             <span className="font-semibold text-primary/58">Vuelto</span>
             <span className="text-xl font-black text-success">{currency.format(sale.changeGiven ?? 0)}</span>
           </div>
-          <Button className="w-full" size="lg" onClick={onClose}>Nueva venta</Button>
+          <div className="flex gap-2">
+            <Button variant="secondary" className="flex-1" size="lg" onClick={() => printTicket({ sale })}>
+              <Printer className="h-4 w-4" />
+              Imprimir
+            </Button>
+            <Button className="flex-1" size="lg" onClick={onClose}>Nueva venta</Button>
+          </div>
         </CardContent>
       </Card>
     </div>

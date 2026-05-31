@@ -109,7 +109,7 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                 <th className="px-2 py-2 text-left md:px-3">
                   <SortHeader field="name">Producto</SortHeader>
                 </th>
-                <th className="hidden px-3 py-2 text-left lg:table-cell">
+                <th className="hidden px-3 py-2 text-left xl:table-cell">
                   <SortHeader field="category">Categoría</SortHeader>
                 </th>
                 <th className="px-2 py-2 text-right md:px-3">
@@ -149,7 +149,7 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                         </div>
                       </div>
                     </td>
-                    <td className="hidden px-3 py-2.5 lg:table-cell">
+                    <td className="hidden px-3 py-2.5 xl:table-cell">
                       <span className="text-xs text-primary/55">
                         {product.category?.name ?? <span className="text-primary/30">—</span>}
                       </span>
