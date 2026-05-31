@@ -69,7 +69,7 @@ export function Cart({
         </div>
       </div>
 
-      <div className="space-y-3 p-4">
+      <div className="space-y-3 p-3 sm:p-4">
         {/* Items list - receipt style */}
         {items.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border bg-bg/60 px-3 py-6 text-center">

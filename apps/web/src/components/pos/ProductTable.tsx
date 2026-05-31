@@ -101,24 +101,24 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border/60 bg-bg/40">
-                <th className="w-10 px-3 py-2 text-left">
+                <th className="w-8 px-2 py-2 text-left md:w-10 md:px-3">
                   <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary/35">
                     <Hash className="inline h-2.5 w-2.5" />
                   </span>
                 </th>
-                <th className="px-3 py-2 text-left">
+                <th className="px-2 py-2 text-left md:px-3">
                   <SortHeader field="name">Producto</SortHeader>
                 </th>
-                <th className="hidden px-3 py-2 text-left sm:table-cell">
+                <th className="hidden px-3 py-2 text-left lg:table-cell">
                   <SortHeader field="category">Categoría</SortHeader>
                 </th>
-                <th className="px-3 py-2 text-right">
+                <th className="px-2 py-2 text-right md:px-3">
                   <SortHeader field="salePrice">Precio</SortHeader>
                 </th>
-                <th className="px-3 py-2 text-center">
+                <th className="px-2 py-2 text-center md:px-3">
                   <SortHeader field="stock">Stock</SortHeader>
                 </th>
-                <th className="w-20 px-3 py-2 text-right">
+                <th className="w-16 px-2 py-2 text-right md:w-20 md:px-3">
                   <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary/35">Acción</span>
                 </th>
               </tr>
@@ -136,11 +136,11 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                       isOutOfStock && 'opacity-50',
                     )}
                   >
-                    <td className="px-3 py-2.5 text-center">
+                    <td className="px-2 py-2.5 text-center md:px-3">
                       <span className="text-[11px] font-mono text-primary/25">{idx + 1}</span>
                     </td>
-                    <td className="px-3 py-2.5">
-                      <div className="min-w-0 max-w-[220px]">
+                    <td className="px-2 py-2.5 md:px-3">
+                      <div className="min-w-0 max-w-[160px] sm:max-w-[200px] md:max-w-[240px]">
                         <p className="truncate text-sm font-semibold text-primary">{product.name}</p>
                         <div className="flex flex-wrap gap-x-2">
                           {product.isbn && (
@@ -149,15 +149,15 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                         </div>
                       </div>
                     </td>
-                    <td className="hidden px-3 py-2.5 sm:table-cell">
+                    <td className="hidden px-3 py-2.5 lg:table-cell">
                       <span className="text-xs text-primary/55">
                         {product.category?.name ?? <span className="text-primary/30">—</span>}
                       </span>
                     </td>
-                    <td className="px-3 py-2.5 text-right">
+                    <td className="px-2 py-2.5 text-right md:px-3">
                       <span className="text-sm font-bold tabular-nums text-primary">{currency.format(product.salePrice)}</span>
                     </td>
-                    <td className="px-3 py-2.5 text-center">
+                    <td className="px-2 py-2.5 text-center md:px-3">
                       <span
                         className={cn(
                           'inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-bold tabular-nums',
@@ -167,7 +167,7 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                         {product.stock}
                       </span>
                     </td>
-                    <td className="px-3 py-2.5 text-right">
+                    <td className="px-2 py-2.5 text-right md:px-3">
                       <Button
                         size="sm"
                         disabled={isOutOfStock}
@@ -175,7 +175,7 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                         className="h-7 px-2 text-[10px]"
                       >
                         <Plus className="h-3 w-3" />
-                        <span className="hidden lg:inline">Agregar</span>
+                        <span className="hidden md:inline">Agregar</span>
                       </Button>
                     </td>
                   </tr>

@@ -137,7 +137,7 @@ export default function POSPage() {
   return (
     <div className="space-y-6">
       {/* Main layout: table + cart */}
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_26rem]">
+      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem] xl:grid-cols-[minmax(0,1fr)_26rem]">
         {/* Left: Catalog area */}
         <div className="space-y-4">
           {/* Tab bar + category filters */}

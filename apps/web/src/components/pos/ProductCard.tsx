@@ -18,16 +18,16 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
 
   return (
     <Card className={cn('group overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-papyrus', isOutOfStock && 'opacity-60')}>
-      <CardContent className="p-4">
-        <div className="flex gap-4">
-          <div className="flex h-24 w-20 shrink-0 items-center justify-center rounded-2xl border border-gold/20 bg-gradient-to-br from-gold/15 via-bg to-white text-gold shadow-inner">
-            <BookOpen className="h-8 w-8" aria-hidden="true" />
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex gap-3 sm:gap-4">
+          <div className="flex h-16 w-14 shrink-0 items-center justify-center rounded-xl border border-gold/20 bg-gradient-to-br from-gold/15 via-bg to-white text-gold shadow-inner sm:h-24 sm:w-20 sm:rounded-2xl">
+            <BookOpen className="h-6 w-6 sm:h-8 sm:w-8" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start justify-between gap-2 sm:gap-3">
               <div className="min-w-0">
-                <h3 className="line-clamp-2 text-base font-extrabold leading-5 text-primary">{product.name}</h3>
-                <p className="mt-1 truncate text-xs font-semibold uppercase tracking-[0.16em] text-primary/42">
+                <h3 className="line-clamp-2 text-sm font-extrabold leading-5 text-primary sm:text-base">{product.name}</h3>
+                <p className="mt-1 truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-primary/42 sm:text-xs">
                   {product.category?.name ?? 'Sin categoría'}
                 </p>
               </div>
@@ -36,13 +36,13 @@ export function ProductCard({ product, onAdd }: ProductCardProps) {
               </Badge>
             </div>
 
-            <div className="mt-4 flex items-end justify-between gap-3">
+            <div className="mt-2 flex items-end justify-between gap-2 sm:mt-4 sm:gap-3">
               <div>
-                <p className="text-xs text-primary/45">Precio mostrador</p>
-                <p className="text-xl font-black text-primary">{currency.format(product.salePrice)}</p>
+                <p className="text-[10px] text-primary/45 sm:text-xs">Precio mostrador</p>
+                <p className="text-base font-black text-primary sm:text-xl">{currency.format(product.salePrice)}</p>
               </div>
-              <Button size="sm" disabled={isOutOfStock} onClick={() => onAdd(product)} aria-label={`Agregar ${product.name}`}>
-                <Plus className="h-4 w-4" aria-hidden="true" />
+              <Button size="sm" disabled={isOutOfStock} onClick={() => onAdd(product)} aria-label={`Agregar ${product.name}`} className="h-7 text-[10px] sm:h-auto sm:text-sm">
+                <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
                 Agregar
               </Button>
             </div>

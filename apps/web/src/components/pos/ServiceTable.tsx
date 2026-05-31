@@ -91,7 +91,7 @@ export function ServiceTable({ services, isLoading, onAdd }: ServiceTableProps) 
                     className="h-7 px-2 text-[10px]"
                   >
                     <Plus className="h-3 w-3" />
-                    <span className="hidden lg:inline">Agregar</span>
+                    <span className="hidden md:inline">Agregar</span>
                   </Button>
                 </td>
               </tr>

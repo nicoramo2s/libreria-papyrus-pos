@@ -112,14 +112,14 @@ export function SalesTable({
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="relative">
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <div className="relative flex-1 sm:flex-none">
           <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-primary/35" />
           <input
             placeholder="PAP-00001..."
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
-            className="h-8 w-44 rounded-lg border border-border bg-white pl-8 pr-3 text-xs font-medium text-primary outline-none transition placeholder:text-primary/30 focus:border-gold focus:ring-1 focus:ring-gold/20"
+            className="h-8 w-full min-w-[120px] rounded-lg border border-border bg-white pl-8 pr-3 text-xs font-medium text-primary outline-none transition placeholder:text-primary/30 focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-36"
           />
         </div>
 
@@ -129,7 +129,7 @@ export function SalesTable({
             updateFilter('paymentMethod', val === 'all' ? '' : val)
           }
         >
-          <SelectTrigger className="h-8 w-32 text-xs">
+          <SelectTrigger className="h-8 w-28 text-xs sm:w-32">
             <SelectValue placeholder="Método" />
           </SelectTrigger>
           <SelectContent>
@@ -146,7 +146,7 @@ export function SalesTable({
             updateFilter('status', val === 'all' ? '' : val)
           }
         >
-          <SelectTrigger className="h-8 w-32 text-xs">
+          <SelectTrigger className="h-8 w-24 text-xs sm:w-32">
             <SelectValue placeholder="Estado" />
           </SelectTrigger>
           <SelectContent>
@@ -163,7 +163,7 @@ export function SalesTable({
             updateFilter('sortOrder', val as 'asc' | 'desc')
           }
         >
-          <SelectTrigger className="h-8 w-32 text-xs">
+          <SelectTrigger className="h-8 w-28 text-xs sm:w-32">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -177,14 +177,14 @@ export function SalesTable({
             type="date"
             value={filters.from}
             onChange={(e) => updateFilter('from', e.target.value)}
-            className="h-8 w-32 rounded-lg border border-border bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20"
+            className="h-8 w-28 rounded-lg border border-border bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-32"
           />
           <span className="text-[10px] text-primary/40">a</span>
           <input
             type="date"
             value={filters.to}
             onChange={(e) => updateFilter('to', e.target.value)}
-            className="h-8 w-32 rounded-lg border border-border bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20"
+            className="h-8 w-28 rounded-lg border border-border bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-32"
           />
         </div>
 

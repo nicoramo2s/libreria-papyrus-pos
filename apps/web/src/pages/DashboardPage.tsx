@@ -47,7 +47,7 @@ const FALLBACK_DATA: DashboardData = {
 function DashboardSkeleton() {
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }, (_, i) => (
           <Card key={i}>
             <CardContent className="p-5">
@@ -59,7 +59,7 @@ function DashboardSkeleton() {
         ))}
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <Card>
           <CardHeader>
             <div className="h-6 w-48 animate-pulse rounded bg-bg/60" />
@@ -138,24 +138,24 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {kpis.map((kpi) => (
           <Card key={kpi.label} className="group overflow-hidden">
-            <CardContent className="p-5">
-              <div className="flex items-start justify-between gap-4">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex items-start justify-between gap-3 sm:gap-4">
                 <div>
                   <p className="text-sm font-semibold text-primary/55">
                     {kpi.label}
                   </p>
-                  <p className="mt-3 text-3xl font-extrabold tracking-tight text-primary">
+                  <p className="mt-3 text-2xl font-extrabold tracking-tight text-primary sm:text-3xl">
                     {kpi.value}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-gold/[0.12] p-3 text-gold transition group-hover:scale-105">
+                <div className="rounded-2xl bg-gold/[0.12] p-2.5 text-gold transition group-hover:scale-105 sm:p-3">
                   <kpi.icon className="h-5 w-5" aria-hidden="true" />
                 </div>
               </div>
-              <Badge variant={kpi.tone} className="mt-5">
+              <Badge variant={kpi.tone} className="mt-3 sm:mt-5">
                 {kpi.detail}
               </Badge>
             </CardContent>
@@ -163,7 +163,7 @@ export default function DashboardPage() {
         ))}
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <Card>
           <CardHeader>
             <CardTitle>Movimientos recientes</CardTitle>
@@ -176,7 +176,7 @@ export default function DashboardPage() {
               ? dashboard.recentSales.map((sale) => (
                   <div
                     key={sale.id}
-                    className="flex items-center justify-between rounded-2xl border border-border bg-bg/60 p-4"
+                    className="flex items-center justify-between rounded-2xl border border-border bg-bg/60 p-3 sm:p-4"
                   >
                     <div>
                       <p className="font-semibold text-primary">
@@ -217,7 +217,7 @@ export default function DashboardPage() {
             {dashboard.lowStockProducts.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center justify-between rounded-xl bg-bg px-4 py-3"
+                className="flex items-center justify-between rounded-xl bg-bg px-3 py-3 sm:px-4"
               >
                 <span className="font-medium text-primary">{item.name}</span>
                 <StockBadge stock={item.stock} stockAlert={item.stockAlert} />

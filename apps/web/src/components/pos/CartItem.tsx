@@ -18,7 +18,7 @@ export function CartItem({ item, onIncrement, onDecrement, onRemove }: CartItemP
 
   return (
     <div className={cn(
-      'group flex items-center gap-2 rounded-lg px-1.5 py-1.5 transition',
+      'group flex items-center gap-1.5 rounded-lg px-1 py-1.5 transition sm:gap-2 sm:px-1.5',
       isService ? 'bg-gold/[0.02]' : 'hover:bg-bg/50',
     )}>
       {/* Quantity controls */}

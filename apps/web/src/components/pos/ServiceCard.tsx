@@ -13,18 +13,18 @@ const currency = new Intl.NumberFormat('es-AR', { style: 'currency', currency: '
 export function ServiceCard({ service, onAdd }: ServiceCardProps) {
   return (
     <Card className="group overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-papyrus">
-      <CardContent className="p-5">
-        <div className="flex items-start gap-4">
-          <div className="rounded-2xl bg-primary p-3 text-gold shadow-papyrus-sm transition group-hover:scale-105">
-            <Sparkles className="h-5 w-5" aria-hidden="true" />
+      <CardContent className="p-3 sm:p-5">
+        <div className="flex items-start gap-3 sm:gap-4">
+          <div className="rounded-xl bg-primary p-2 text-gold shadow-papyrus-sm transition group-hover:scale-105 sm:rounded-2xl sm:p-3">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-lg font-extrabold text-primary">{service.name}</h3>
-            <p className="mt-2 min-h-12 text-sm leading-6 text-primary/58">{service.description ?? 'Servicio de mostrador listo para sumar al ticket.'}</p>
-            <div className="mt-5 flex items-center justify-between gap-3">
-              <p className="text-2xl font-black text-primary">{currency.format(service.basePrice)}</p>
-              <Button size="sm" onClick={() => onAdd(service)}>
-                <Plus className="h-4 w-4" aria-hidden="true" />
+            <h3 className="text-base font-extrabold text-primary sm:text-lg">{service.name}</h3>
+            <p className="mt-1 min-h-0 text-xs leading-5 text-primary/58 sm:mt-2 sm:min-h-12 sm:text-sm sm:leading-6">{service.description ?? 'Servicio de mostrador listo para sumar al ticket.'}</p>
+            <div className="mt-3 flex items-center justify-between gap-3 sm:mt-5">
+              <p className="text-lg font-black text-primary sm:text-2xl">{currency.format(service.basePrice)}</p>
+              <Button size="sm" onClick={() => onAdd(service)} className="h-7 text-[10px] sm:h-auto sm:text-sm">
+                <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
                 Agregar
               </Button>
             </div>

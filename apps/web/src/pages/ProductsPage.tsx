@@ -152,9 +152,9 @@ export default function ProductsPage() {
   return (
     <div className="space-y-6">
       {/* Filters bar — always mounted so the search input never loses focus */}
-      <section className="rounded-2xl border border-border/80 bg-surface/90 px-4 py-3 shadow-papyrus-sm">
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="min-w-[160px] flex-1">
+      <section className="rounded-2xl border border-border/80 bg-surface/90 px-3 py-3 shadow-papyrus-sm sm:px-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <div className="min-w-[140px] flex-1 sm:min-w-[160px]">
             <Input
               placeholder="Buscar nombre, ISBN…"
               value={searchInput}
@@ -167,7 +167,7 @@ export default function ProductsPage() {
             value={categoryId ?? 'all'}
             onValueChange={handleCategoryChange}
           >
-            <SelectTrigger className="h-9 w-36 text-xs">
+            <SelectTrigger className="h-9 w-32 text-xs sm:w-36">
               <SelectValue placeholder="Todas las categorías" />
             </SelectTrigger>
             <SelectContent>
@@ -185,7 +185,7 @@ export default function ProductsPage() {
               handleSortChange(field, order as 'asc' | 'desc');
             }}
           >
-            <SelectTrigger className="h-9 w-40 text-xs">
+            <SelectTrigger className="h-9 w-28 text-xs md:w-40">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -202,7 +202,7 @@ export default function ProductsPage() {
             value={limit.toString()}
             onValueChange={(value) => handleLimitChange(parseInt(value))}
           >
-            <SelectTrigger className="h-9 w-20 text-xs">
+            <SelectTrigger className="h-9 w-16 text-xs sm:w-20">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -217,7 +217,7 @@ export default function ProductsPage() {
               checked={lowStock}
               onCheckedChange={handleLowStockChange}
             />
-            <span onClick={() => handleLowStockChange(!lowStock)}>
+            <span className="hidden sm:inline" onClick={() => handleLowStockChange(!lowStock)}>
               Solo stock bajo
             </span>
           </div>
