@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, LayoutDashboard, LogOut, ReceiptText, Settings, ShoppingCart, Sparkles, Tag } from 'lucide-react';
+import { BarChart3, BookOpen, Boxes, LayoutDashboard, LogOut, ReceiptText, Settings, ShoppingCart, Sparkles, Tag } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { useAuthStore } from '../../store/authStore';
@@ -8,6 +8,7 @@ const navigation = [
   { name: 'Punto de venta', href: '/pos', icon: ShoppingCart },
   { name: 'Catálogo', href: '/products', icon: BookOpen },
   { name: 'Ventas', href: '/sales', icon: ReceiptText },
+  { name: 'Cargas de stock', href: '/stock-loads', icon: Boxes },
   { name: 'Servicios', href: '/services', icon: Sparkles },
   { name: 'Categorías', href: '/categories', icon: Tag },
   { name: 'Reportes', href: '/reports', icon: BarChart3 },

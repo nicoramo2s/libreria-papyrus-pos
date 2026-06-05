@@ -63,12 +63,12 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
       {/* Search bar — always rendered so it never loses focus */}
       <div className="border-b border-border px-3 py-2">
         <div className="relative">
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-primary/30" />
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-primary/60" />
           <Input
             placeholder="Filtrar por nombre o ISBN…"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="h-8 border-0 bg-bg/60 pl-8 text-xs placeholder:text-primary/30 focus-visible:ring-1 focus-visible:ring-gold/40"
+            className="h-8 border border-primary/20 bg-bg/90 pl-8 text-xs text-primary placeholder:text-primary/60 focus-visible:ring-1 focus-visible:ring-gold/60"
           />
         </div>
       </div>
