@@ -42,6 +42,7 @@ export default function POSPage() {
   const addItem = useCartStore((state) => state.addItem);
   const increment = useCartStore((state) => state.increment);
   const decrement = useCartStore((state) => state.decrement);
+  const setQuantity = useCartStore((state) => state.setQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);
   const setDiscountAmount = useCartStore((state) => state.setDiscountAmount);
@@ -242,6 +243,7 @@ export default function POSPage() {
           onCashReceivedChange={setCashReceived}
           onIncrement={increment}
           onDecrement={decrement}
+          onSetQuantity={setQuantity}
           onRemove={removeItem}
           onClear={clearCart}
           onCheckout={handleCheckout}

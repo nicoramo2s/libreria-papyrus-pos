@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Plus, Search, PackageSearch, ChevronDown, ChevronUp, Hash } from 'lucide-react';
+import { Plus, Search, PackageSearch, ChevronDown, ChevronUp } from 'lucide-react';
 import type { Product } from '@papyrus/shared';
-import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { cn } from '../../lib/utils';
 
@@ -79,12 +78,11 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
         <div className="space-y-0 divide-y divide-border">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="flex animate-pulse items-center gap-3 px-3 py-2.5">
-              <div className="h-3.5 w-6 rounded bg-primary/10" />
+              <div className="h-5 w-6 rounded bg-primary/10" />
               <div className="h-3.5 flex-1 rounded bg-primary/10" />
               <div className="h-3.5 w-20 rounded bg-primary/10" />
               <div className="h-3.5 w-16 rounded bg-primary/10" />
               <div className="h-5 w-10 rounded-md bg-primary/10" />
-              <div className="h-7 w-14 rounded-xl bg-primary/10" />
             </div>
           ))}
         </div>
@@ -101,10 +99,8 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border/60 bg-bg/40">
-                <th className="w-8 px-2 py-2 text-left md:w-10 md:px-3">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary/35">
-                    <Hash className="inline h-2.5 w-2.5" />
-                  </span>
+                <th className="w-8 px-2 py-2 text-center md:w-10 md:px-3">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary/35">+</span>
                 </th>
                 <th className="px-2 py-2 text-left md:px-3">
                   <SortHeader field="name">Producto</SortHeader>
@@ -118,9 +114,7 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                 <th className="px-2 py-2 text-center md:px-3">
                   <SortHeader field="stock">Stock</SortHeader>
                 </th>
-                <th className="w-16 px-2 py-2 text-right md:w-20 md:px-3">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary/35">Acción</span>
-                </th>
+
               </tr>
             </thead>
             <tbody className="divide-y divide-border/30">
@@ -131,13 +125,21 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                 return (
                   <tr
                     key={product.id}
+                    onClick={isOutOfStock ? undefined : () => onAdd(product)}
                     className={cn(
-                      'transition hover:bg-gold/[0.03]',
-                      isOutOfStock && 'opacity-50',
+                      'cursor-pointer transition hover:bg-gold/[0.04]',
+                      isOutOfStock && 'cursor-default opacity-50',
                     )}
                   >
                     <td className="px-2 py-2.5 text-center md:px-3">
-                      <span className="text-[11px] font-mono text-primary/25">{idx + 1}</span>
+                      <button
+                        type="button"
+                        disabled={isOutOfStock}
+                        onClick={(e) => { e.stopPropagation(); onAdd(product); }}
+                        className="inline-flex h-6 w-6 items-center justify-center rounded-lg bg-gold/15 text-gold transition hover:bg-gold/25 disabled:opacity-30"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                      </button>
                     </td>
                     <td className="px-2 py-2.5 md:px-3">
                       <div className="min-w-0 max-w-[160px] sm:max-w-[200px] md:max-w-[240px]">
@@ -166,17 +168,6 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
                       >
                         {product.stock}
                       </span>
-                    </td>
-                    <td className="px-2 py-2.5 text-right md:px-3">
-                      <Button
-                        size="sm"
-                        disabled={isOutOfStock}
-                        onClick={() => onAdd(product)}
-                        className="h-7 px-2 text-[10px]"
-                      >
-                        <Plus className="h-3 w-3" />
-                        <span className="hidden md:inline">Agregar</span>
-                      </Button>
                     </td>
                   </tr>
                 );

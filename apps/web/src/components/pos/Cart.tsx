@@ -20,6 +20,7 @@ interface CartProps {
   onCashReceivedChange: (value: string) => void;
   onIncrement: (id: string) => void;
   onDecrement: (id: string) => void;
+  onSetQuantity: (id: string, quantity: number) => void;
   onRemove: (id: string) => void;
   onClear: () => void;
   onCheckout: () => void;
@@ -41,6 +42,7 @@ export function Cart({
   onCashReceivedChange,
   onIncrement,
   onDecrement,
+  onSetQuantity,
   onRemove,
   onClear,
   onCheckout,
@@ -87,7 +89,7 @@ export function Cart({
               <span className="w-5 shrink-0" />
             </div>
             {items.map((item) => (
-              <CartItem key={item.id} item={item} onIncrement={onIncrement} onDecrement={onDecrement} onRemove={onRemove} />
+              <CartItem key={item.id} item={item} onIncrement={onIncrement} onDecrement={onDecrement} onSetQuantity={onSetQuantity} onRemove={onRemove} />
             ))}
           </div>
         )}
