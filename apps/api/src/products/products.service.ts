@@ -49,17 +49,34 @@ export class ProductsService {
       where.categoryId = categoryId;
     }
 
-    // Apply lowStock filter at DB level using raw condition
-    if (lowStock === 'true') {
-      where.stock = { lte: 0 }; // placeholder, filtered below
-    }
-
     // Build orderBy — default to createdAt desc
     const orderBy: Prisma.ProductOrderByWithRelationInput = {};
     if (sortBy) {
       orderBy[sortBy as keyof Prisma.ProductOrderByWithRelationInput] = sortOrder ?? 'asc';
     } else {
       orderBy.createdAt = 'desc';
+    }
+
+    if (lowStock === 'true') {
+      const products = await this.prisma.product.findMany({
+        where,
+        orderBy,
+        include: { category: true },
+      });
+
+      const lowStockProducts = products.filter(
+        (product) => product.stock <= product.stockAlert,
+      );
+      const total = lowStockProducts.length;
+      const data = lowStockProducts.slice(skip, skip + limit);
+
+      return {
+        data,
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      };
     }
 
     const [data, total] = await Promise.all([
@@ -73,15 +90,8 @@ export class ProductsService {
       this.prisma.product.count({ where }),
     ]);
 
-    let result = data;
-
-    // Filter by lowStock after query since we can't compare fields in Prisma where
-    if (lowStock === 'true') {
-      result = data.filter((product) => product.stock <= product.stockAlert);
-    }
-
     return {
-      data: result,
+      data,
       total,
       page,
       limit,

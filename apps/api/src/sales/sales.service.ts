@@ -20,6 +20,7 @@ export class SalesService {
         itemType: SaleItemType;
         productName: string;
         productPrice: number;
+        purchasePrice: number;
         quantity: number;
         subtotal: number;
         specifications?: any;
@@ -44,6 +45,7 @@ export class SalesService {
             itemType: 'PRODUCT' as SaleItemType,
             productName: product.name,
             productPrice: Number(product.salePrice),
+            purchasePrice: Number(product.purchasePrice),
             quantity: item.quantity,
             subtotal: itemSubtotal,
             specifications: item.specifications,
@@ -65,6 +67,7 @@ export class SalesService {
             itemType: 'SERVICE' as SaleItemType,
             productName: service.name,
             productPrice: price,
+            purchasePrice: 0,
             quantity: item.quantity,
             subtotal: itemSubtotal,
             specifications: item.specifications,

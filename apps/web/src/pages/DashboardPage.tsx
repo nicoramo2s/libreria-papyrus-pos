@@ -1,4 +1,4 @@
-import { ArrowUpRight, CircleDollarSign, PackageSearch, ReceiptText } from 'lucide-react';
+import { ArrowUpRight, CircleDollarSign, PackageSearch, ReceiptText, TrendingUp, Percent } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '../components/ui/Badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
@@ -42,6 +42,9 @@ const FALLBACK_DATA: DashboardData = {
     { id: '4', name: 'Ficciones', stock: 0, stockAlert: 3 },
   ],
   recentSales: [],
+  todayCost: 0,
+  todayProfit: 0,
+  todayMargin: 0,
 };
 
 function DashboardSkeleton() {
@@ -127,6 +130,20 @@ export default function DashboardPage() {
       icon: PackageSearch,
       tone: 'danger' as const,
     },
+    {
+      label: 'Ganancia hoy',
+      value: formatCurrency(dashboard.todayProfit ?? 0),
+      detail: data ? 'Calculada sobre precio de costo' : 'Sin datos de costo',
+      icon: TrendingUp,
+      tone: ((dashboard.todayProfit ?? 0) >= 0 ? 'success' : 'danger') as 'success' | 'danger',
+    },
+    {
+      label: 'Margen hoy',
+      value: `${dashboard.todayMargin ?? 0}%`,
+      detail: (dashboard.todayMargin ?? 0) >= 30 ? 'Excelente' : (dashboard.todayMargin ?? 0) >= 15 ? 'Aceptable' : 'Revisar costos',
+      icon: Percent,
+      tone: 'gold' as const,
+    },
   ];
 
   return (
@@ -138,7 +155,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {kpis.map((kpi) => (
           <Card key={kpi.label} className="group overflow-hidden">
             <CardContent className="p-4 sm:p-5">

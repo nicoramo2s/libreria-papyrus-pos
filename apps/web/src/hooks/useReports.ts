@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { reportsService, type ReportsQueryParams } from '@/services/reports';
+import { reportsService, type ReportsQueryParams, type ProfitabilityData } from '@/services/reports';
 
 export const reportsQueryKeys = {
   all: ['reports'] as const,
@@ -11,6 +11,8 @@ export const reportsQueryKeys = {
   salesByPayment: (params?: Pick<ReportsQueryParams, 'from' | 'to'>) =>
     [...reportsQueryKeys.all, 'sales-by-payment', params] as const,
   lowStock: () => [...reportsQueryKeys.all, 'low-stock'] as const,
+  profitability: (params?: Pick<ReportsQueryParams, 'from' | 'to'>) =>
+    [...reportsQueryKeys.all, 'profitability', params] as const,
 };
 
 export function useSalesByPeriod(params?: ReportsQueryParams) {
@@ -38,5 +40,12 @@ export function useLowStock() {
   return useQuery({
     queryKey: reportsQueryKeys.lowStock(),
     queryFn: () => reportsService.getLowStock(),
+  });
+}
+
+export function useProfitability(params?: Pick<ReportsQueryParams, 'from' | 'to'>) {
+  return useQuery({
+    queryKey: reportsQueryKeys.profitability(params),
+    queryFn: (): Promise<ProfitabilityData> => reportsService.getProfitability(params),
   });
 }

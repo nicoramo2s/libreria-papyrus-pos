@@ -10,6 +10,7 @@ import ReportsPage from '../pages/ReportsPage';
 import SettingsPage from '../pages/SettingsPage';
 import ServicesPage from '../pages/ServicesPage';
 import CategoriesPage from '../pages/CategoriesPage';
+import StockLoadsPage from '../pages/StockLoadsPage';
 
 function RequireAuth() {
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
       { path: 'reports', element: <ReportsPage /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'categories', element: <CategoriesPage /> },
+      { path: 'stock-loads', element: <StockLoadsPage /> },
       { path: 'settings', element: <SettingsPage /> },
     ],
   },

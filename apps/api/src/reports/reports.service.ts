@@ -47,6 +47,15 @@ export class ReportsService {
     // Top product today via raw SQL
     const topProduct = await this.getTopProductToday(today, tomorrow);
 
+    // Today cost and profit: sum purchasePrice * quantity from today's completed sale items
+    const todaySaleItems = await this.prisma.saleItem.findMany({
+      where: { sale: { ...dateFilter, status: 'COMPLETED' } },
+      select: { purchasePrice: true, quantity: true },
+    });
+    const todayCost = todaySaleItems.reduce((sum, i) => sum + Number(i.purchasePrice) * i.quantity, 0);
+    const todayProfit = todayRevenue - todayCost;
+    const todayMargin = todayRevenue > 0 ? Math.round((todayProfit / todayRevenue) * 100 * 10) / 10 : 0;
+
     return {
       todayRevenue,
       todayTransactions: todayCount,
@@ -55,6 +64,9 @@ export class ReportsService {
       lowStockCount: lowStockProducts.length,
       lowStockProducts,
       recentSales,
+      todayCost,
+      todayProfit,
+      todayMargin,
     };
   }
 
@@ -75,12 +87,17 @@ export class ReportsService {
 
     const sales = await this.prisma.sale.findMany({
       where,
-      select: { createdAt: true, total: true },
+      select: {
+        id: true,
+        createdAt: true,
+        total: true,
+        items: { select: { purchasePrice: true, quantity: true } },
+      },
       orderBy: { createdAt: 'asc' },
     });
 
     // Group by date in JavaScript to avoid MySQL ONLY_FULL_GROUP_BY issues with raw SQL
-    const grouped = new Map<string, { total: number; count: number }>();
+    const grouped = new Map<string, { total: number; count: number; cost: number }>();
 
     for (const sale of sales) {
       const date = new Date(sale.createdAt);
@@ -103,16 +120,21 @@ export class ReportsService {
           key = date.toISOString().slice(0, 10);
       }
 
-      const existing = grouped.get(key) ?? { total: 0, count: 0 };
+      const saleCost = sale.items.reduce((sum, i) => sum + Number(i.purchasePrice) * i.quantity, 0);
+      const existing = grouped.get(key) ?? { total: 0, count: 0, cost: 0 };
       existing.total += Number(sale.total);
       existing.count += 1;
+      existing.cost += saleCost;
       grouped.set(key, existing);
     }
 
-    return Array.from(grouped.entries()).map(([date, { total, count }]) => ({
+    return Array.from(grouped.entries()).map(([date, { total, count, cost }]) => ({
       date,
       total,
       count,
+      cost,
+      profit: total - cost,
+      margin: total > 0 ? Math.round(((total - cost) / total) * 100 * 10) / 10 : 0,
     }));
   }
 
@@ -200,6 +222,59 @@ export class ReportsService {
       orderBy: { stock: 'asc' },
     });
     return products.filter(p => p.stock <= p.stockAlert);
+  }
+
+  async getProfitability(from?: string, to?: string) {
+    const where: Prisma.SaleWhereInput = { status: 'COMPLETED' };
+
+    if (from || to) {
+      where.createdAt = {};
+      if (from) where.createdAt.gte = new Date(from);
+      if (to) {
+        const endDate = new Date(to);
+        endDate.setDate(endDate.getDate() + 1);
+        where.createdAt.lt = endDate;
+      }
+    }
+
+    const [saleAgg, saleItems] = await Promise.all([
+      this.prisma.sale.aggregate({
+        where,
+        _sum: { total: true },
+        _count: true,
+      }),
+      this.prisma.saleItem.findMany({
+        where: { sale: where },
+        select: { purchasePrice: true, quantity: true, subtotal: true, itemType: true },
+      }),
+    ]);
+
+    const revenue = Number(saleAgg._sum.total ?? 0);
+    const transactions = saleAgg._count;
+
+    const cost = saleItems.reduce((sum, i) => sum + Number(i.purchasePrice) * i.quantity, 0);
+    const profit = revenue - cost;
+    const margin = revenue > 0 ? Math.round((profit / revenue) * 100 * 10) / 10 : 0;
+    const averageTicket = transactions > 0 ? revenue / transactions : 0;
+
+    // Break down by product vs service revenue
+    const productRevenue = saleItems
+      .filter(i => i.itemType === 'PRODUCT')
+      .reduce((sum, i) => sum + Number(i.subtotal), 0);
+    const serviceRevenue = saleItems
+      .filter(i => i.itemType === 'SERVICE')
+      .reduce((sum, i) => sum + Number(i.subtotal), 0);
+
+    return {
+      revenue,
+      cost,
+      profit,
+      margin,
+      transactions,
+      averageTicket,
+      productRevenue,
+      serviceRevenue,
+    };
   }
 
   private async getTopProductToday(today: Date, tomorrow: Date) {

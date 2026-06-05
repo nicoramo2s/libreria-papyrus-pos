@@ -14,12 +14,29 @@ export interface DashboardData {
     createdAt: string;
     user: { displayName: string };
   }>;
+  todayCost: number;
+  todayProfit: number;
+  todayMargin: number;
+}
+
+export interface ProfitabilityData {
+  revenue: number;
+  cost: number;
+  profit: number;
+  margin: number;
+  transactions: number;
+  averageTicket: number;
+  productRevenue: number;
+  serviceRevenue: number;
 }
 
 export interface SalesByPeriodEntry {
   date: string;
   total: number;
   count: number;
+  cost: number;
+  profit: number;
+  margin: number;
 }
 
 export interface TopProductEntry {
@@ -68,4 +85,7 @@ export const reportsService = {
 
   getLowStock: (): Promise<LowStockProduct[]> =>
     api.get('/reports/low-stock').then((r) => r.data),
+
+  getProfitability: (params?: Pick<ReportsQueryParams, 'from' | 'to'>): Promise<ProfitabilityData> =>
+    api.get('/reports/profitability', { params }).then((r) => r.data),
 };

@@ -56,4 +56,15 @@ export class ReportsController {
   getLowStock() {
     return this.reportsService.getLowStock();
   }
+
+  @Get('profitability')
+  @ApiOperation({ summary: 'Rentabilidad por período: ingresos, costo, ganancia y margen' })
+  @ApiQuery({ name: 'from', required: false })
+  @ApiQuery({ name: 'to', required: false })
+  getProfitability(
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+  ) {
+    return this.reportsService.getProfitability(from, to);
+  }
 }

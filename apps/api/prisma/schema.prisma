@@ -22,6 +22,8 @@ model User {
 
   sales          Sale[]
   stockMovements StockMovement[]
+  stockLoads     StockLoad[] @relation("StockLoadCreatedBy")
+  cancelledStockLoads StockLoad[] @relation("StockLoadCancelledBy")
 
   @@map("users")
 }
@@ -62,6 +64,7 @@ model Product {
   category       Category?       @relation(fields: [categoryId], references: [id])
   saleItems      SaleItem[]
   stockMovements StockMovement[]
+  stockLoadItems StockLoadItem[]
 
   @@map("products")
 }
@@ -100,6 +103,7 @@ model SaleItem {
   itemType       SaleItemType @map("item_type")
   productName    String       @map("product_name")
   productPrice   Decimal      @map("product_price") @db.Decimal(10, 2)
+  purchasePrice  Decimal      @default(0) @map("purchase_price") @db.Decimal(10, 2)
   quantity       Int
   subtotal       Decimal      @db.Decimal(10, 2)
   specifications Json?
@@ -175,6 +179,7 @@ model StockMovement {
   id            String            @id @default(uuid())
   productId     String            @map("product_id")
   userId        String            @map("user_id")
+  stockLoadId   String?           @map("stock_load_id")
   type          StockMovementType
   quantity      Int
   reason        String?           @db.Text
@@ -182,10 +187,66 @@ model StockMovement {
   newStock      Int               @map("new_stock")
   createdAt     DateTime          @default(now()) @map("created_at")
 
-  product Product @relation(fields: [productId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  product   Product    @relation(fields: [productId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
+  stockLoad StockLoad? @relation(fields: [stockLoadId], references: [id])
 
   @@map("stock_movements")
+}
+
+// ─── Cargas De Stock ───────────────────────────────────
+
+model StockLoad {
+  id              String          @id @default(uuid())
+  userId          String          @map("user_id")
+  supplierName    String?         @map("supplier_name")
+  supplierContact String?         @map("supplier_contact")
+  invoiceNumber   String?         @map("invoice_number")
+  productSubtotal Decimal         @map("product_subtotal") @db.Decimal(10, 2)
+  expenseTotal    Decimal         @default(0) @map("expense_total") @db.Decimal(10, 2)
+  totalCost       Decimal         @map("total_cost") @db.Decimal(10, 2)
+  notes           String?         @db.Text
+  status          StockLoadStatus @default(ACTIVE)
+  cancelledBy     String?         @map("cancelled_by")
+  cancelReason    String?         @map("cancel_reason") @db.Text
+  cancelledAt     DateTime?       @map("cancelled_at")
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  user            User                @relation("StockLoadCreatedBy", fields: [userId], references: [id])
+  cancelledByUser User?               @relation("StockLoadCancelledBy", fields: [cancelledBy], references: [id])
+  items           StockLoadItem[]
+  expenses        StockLoadExpense[]
+  stockMovements  StockMovement[]
+
+  @@map("stock_loads")
+}
+
+model StockLoadItem {
+  id            String   @id @default(uuid())
+  stockLoadId   String   @map("stock_load_id")
+  productId     String   @map("product_id")
+  quantity      Int
+  unitCost      Decimal  @map("unit_cost") @db.Decimal(10, 2)
+  subtotal      Decimal  @db.Decimal(10, 2)
+  previousStock Int      @map("previous_stock")
+  newStock      Int      @map("new_stock")
+
+  stockLoad StockLoad @relation(fields: [stockLoadId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+
+  @@map("stock_load_items")
+}
+
+model StockLoadExpense {
+  id          String               @id @default(uuid())
+  stockLoadId String               @map("stock_load_id")
+  type        StockLoadExpenseType
+  description String?
+  amount      Decimal              @db.Decimal(10, 2)
+
+  stockLoad StockLoad @relation(fields: [stockLoadId], references: [id])
+
+  @@map("stock_load_expenses")
 }
 
 // ─── Configuración ──────────────────────────────────────
@@ -221,4 +282,17 @@ enum StockMovementType {
   IN
   OUT
   ADJUSTMENT
+}
+
+enum StockLoadStatus {
+  ACTIVE
+  CANCELLED
+}
+
+enum StockLoadExpenseType {
+  SHIPPING
+  TAX
+  PACKAGING
+  COMMISSION
+  OTHER
 }

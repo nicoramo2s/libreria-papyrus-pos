@@ -10,6 +10,7 @@ export interface SaleItem {
   itemType: SaleItemType;
   productName: string;
   productPrice: number;
+  purchasePrice: number;
   quantity: number;
   subtotal: number;
   specifications?: Record<string, unknown>;
