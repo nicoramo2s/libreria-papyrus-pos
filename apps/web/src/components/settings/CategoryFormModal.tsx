@@ -10,7 +10,6 @@ import type { Category } from '@papyrus/shared';
 
 const categoryFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  icon: z.string().optional(),
   color: z.string().optional(),
 });
 
@@ -30,7 +29,6 @@ export function CategoryFormModal({ category, onSubmit, onCancel, isPending }: C
     resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       name: '',
-      icon: '',
       color: '#B8922A',
     },
   });
@@ -39,13 +37,11 @@ export function CategoryFormModal({ category, onSubmit, onCancel, isPending }: C
     if (category) {
       form.reset({
         name: category.name || '',
-        icon: category.icon || '',
         color: category.color || '#B8922A',
       });
     } else {
       form.reset({
         name: '',
-        icon: '',
         color: '#B8922A',
       });
     }
@@ -79,25 +75,21 @@ export function CategoryFormModal({ category, onSubmit, onCancel, isPending }: C
             error={form.formState.errors.name?.message}
             {...form.register('name')}
           />
-          <Input
-            label="Icono"
-            placeholder="Nombre del icono (ej: BookOpen)"
-            error={form.formState.errors.icon?.message}
-            {...form.register('icon')}
-          />
           <div className="space-y-2">
             <label className="text-sm font-semibold text-primary">Color</label>
             <div className="flex gap-3 items-center">
               <input
                 type="color"
+                value={form.watch('color') ?? '#B8922A'}
+                onChange={(e) => form.setValue('color', e.target.value)}
                 className="h-10 w-10 rounded-lg border border-border cursor-pointer"
-                {...form.register('color')}
               />
               <Input
                 placeholder="#B8922A"
                 className="flex-1 font-mono"
+                value={form.watch('color') ?? ''}
+                onChange={(e) => form.setValue('color', e.target.value)}
                 error={form.formState.errors.color?.message}
-                {...form.register('color')}
               />
             </div>
           </div>

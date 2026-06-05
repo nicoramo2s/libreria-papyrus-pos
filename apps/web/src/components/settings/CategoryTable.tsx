@@ -32,7 +32,6 @@ export function CategoryTable({ categories, onEdit, onDelete }: CategoryTablePro
         <thead className="text-xs uppercase text-primary bg-primary/[0.04]">
           <tr>
             <th scope="col" className="px-6 py-3">Nombre</th>
-            <th scope="col" className="px-6 py-3">Icono</th>
             <th scope="col" className="px-6 py-3">Color</th>
             <th scope="col" className="px-6 py-3">Productos</th>
             <th scope="col" className="px-6 py-3">Acciones</th>
@@ -42,7 +41,6 @@ export function CategoryTable({ categories, onEdit, onDelete }: CategoryTablePro
           {categories.map((category) => (
             <tr key={category.id} className="border-b border-border bg-surface hover:bg-primary/[0.02]">
               <td className="px-6 py-4 font-medium text-primary">{category.name}</td>
-              <td className="px-6 py-4 text-primary/75">{category.icon || '—'}</td>
               <td className="px-6 py-4">
                 <div className="flex items-center gap-2">
                   <div

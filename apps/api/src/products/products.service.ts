@@ -110,8 +110,13 @@ export class ProductsService {
 
   async create(dto: CreateProductDto) {
     try {
+      const data = {
+        ...dto,
+        purchasePrice: dto.purchasePrice ?? 0,
+        stock: dto.stock ?? 0,
+      };
       return await this.prisma.product.create({
-        data: dto as unknown as Prisma.ProductCreateInput,
+        data: data as unknown as Prisma.ProductCreateInput,
         include: { category: true },
       });
     } catch (error) {

@@ -28,9 +28,7 @@ export interface CreateProductDto {
   description?: string;
   categoryId?: string;
   isbn?: string;
-  purchasePrice: number;
   salePrice: number;
-  stock: number;
   stockAlert?: number;
 }
 

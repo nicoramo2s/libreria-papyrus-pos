@@ -33,16 +33,9 @@ const productFormSchema = z.object({
       "ISBN debe tener entre 10 y 13 dígitos",
     ),
 
-  purchasePrice: z.coerce
-    .number()
-    .positive("El precio de compra debe ser mayor a 0"),
   salePrice: z.coerce
     .number()
     .positive("El precio de venta debe ser mayor a 0"),
-  stock: z.coerce
-    .number()
-    .int("Debe ser un número entero")
-    .nonnegative("El stock no puede ser negativo"),
   stockAlert: z.coerce.number().int().nonnegative().optional(),
 });
 
@@ -92,9 +85,7 @@ export function ProductForm({
       categoryId: undefined,
       isbn: "",
 
-      purchasePrice: 0,
       salePrice: 0,
-      stock: 0,
       stockAlert: 0,
     },
   });
@@ -107,9 +98,7 @@ export function ProductForm({
         categoryId: product.categoryId || undefined,
         isbn: product.isbn || "",
 
-        purchasePrice: product.purchasePrice || 0,
         salePrice: product.salePrice || 0,
-        stock: product.stock || 0,
         stockAlert: product.stockAlert || 0,
       });
       if (product.imageUrl) {
@@ -256,17 +245,8 @@ export function ProductForm({
         {...form.register("description")}
       />
 
-      {/* Fila: precios + stock */}
-      <div className="grid gap-3 sm:grid-cols-4">
-        <Input
-          label="Compra *"
-          type="number"
-          step="0.01"
-          min="0"
-          placeholder="0.00"
-          error={form.formState.errors.purchasePrice?.message}
-          {...form.register("purchasePrice")}
-        />
+      {/* Fila: precios + alerta */}
+      <div className="grid gap-3 sm:grid-cols-2">
         <Input
           label="Venta *"
           type="number"
@@ -277,15 +257,7 @@ export function ProductForm({
           {...form.register("salePrice")}
         />
         <Input
-          label="Stock *"
-          type="number"
-          min="0"
-          placeholder="0"
-          error={form.formState.errors.stock?.message}
-          {...form.register("stock")}
-        />
-        <Input
-          label="Alerta"
+          label="Alerta stock"
           type="number"
           min="0"
           placeholder="0"

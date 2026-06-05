@@ -29,6 +29,12 @@ export class ServicesController {
     return this.servicesService.findAll();
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Obtener un servicio por ID' })
+  findOne(@Param('id') id: string) {
+    return this.servicesService.findOne(id);
+  }
+
   @Post()
   @ApiOperation({ summary: 'Crear un servicio' })
   create(@Body() dto: CreateServiceDto) {

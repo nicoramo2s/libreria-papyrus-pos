@@ -8,6 +8,7 @@ import { useCategories } from '@/hooks/useCategories';
 import { useProducts, useCreateProduct, useUpdateProduct, useDeleteProduct, useUploadProductImage } from '@/hooks/useProducts';
 import { ProductTable } from '@/components/products/ProductTable';
 import { ProductForm } from '@/components/products/ProductForm';
+import { ProductDetailModal } from '@/components/products/ProductDetailModal';
 import { ConfirmDeleteModal } from '@/components/ui/ConfirmDeleteModal';
 import { Toaster, toast } from 'sonner';
 import { Plus, ChevronLeft, ChevronRight, X, BookOpen } from 'lucide-react';
@@ -23,6 +24,7 @@ export default function ProductsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(20);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+  const [viewingProductId, setViewingProductId] = useState<string | null>(null);
 
   // Debounce search por 500ms
   useEffect(() => {
@@ -101,6 +103,14 @@ export default function ProductsPage() {
   const handleCreateProduct = () => {
     setFormMode('create');
     setSelectedProductId(null);
+  };
+
+  const handleViewProduct = (id: string) => {
+    setViewingProductId(id);
+  };
+
+  const handleCloseView = () => {
+    setViewingProductId(null);
   };
 
   const handleEditProduct = (id: string) => {
@@ -250,6 +260,7 @@ export default function ProductsPage() {
         <>
           <ProductTable
             products={products}
+            onView={handleViewProduct}
             onEdit={handleEditProduct}
             onDelete={handleDeleteProduct}
             onImageUpload={handleImageUpload}
@@ -366,6 +377,15 @@ export default function ProductsPage() {
             />
           </div>
         </div>
+      )}
+
+      {/* Product Detail Modal */}
+      {viewingProductId && products.find((p) => p.id === viewingProductId) && (
+        <ProductDetailModal
+          product={products.find((p) => p.id === viewingProductId)!}
+          onClose={handleCloseView}
+          onEdit={handleEditProduct}
+        />
       )}
 
       {/* Confirm Delete Modal */}

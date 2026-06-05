@@ -13,6 +13,7 @@ const formatCurrency = (value: number) =>
 
 interface ProductTableProps {
   products: Product[];
+  onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onImageUpload: (productId: string, file: File) => void;
@@ -21,6 +22,7 @@ interface ProductTableProps {
 
 export function ProductTable({
   products,
+  onView,
   onEdit,
   onDelete,
   onImageUpload,
@@ -80,7 +82,8 @@ export function ProductTable({
             {products.map((product) => (
               <tr
                 key={product.id}
-                className="transition hover:bg-gold/[0.03]"
+                className="cursor-pointer transition hover:bg-gold/[0.03]"
+                onClick={() => onView(product.id)}
               >
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
@@ -127,7 +130,7 @@ export function ProductTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onEdit(product.id)}
+                      onClick={(e) => { e.stopPropagation(); onEdit(product.id); }}
                       aria-label="Editar producto"
                       className="hover:text-gold"
                     >
@@ -136,12 +139,13 @@ export function ProductTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         const input = document.createElement('input');
                         input.type = 'file';
                         input.accept = 'image/jpeg,image/png,image/webp';
-                        input.onchange = (e) => {
-                          const file = (e.target as HTMLInputElement).files?.[0];
+                        input.onchange = (event) => {
+                          const file = (event.target as HTMLInputElement).files?.[0];
                           if (file) onImageUpload(product.id, file);
                         };
                         input.click();
@@ -154,7 +158,7 @@ export function ProductTable({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onDelete(product.id)}
+                      onClick={(e) => { e.stopPropagation(); onDelete(product.id); }}
                       aria-label="Eliminar producto"
                       className="hover:text-danger"
                     >

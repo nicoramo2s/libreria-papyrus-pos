@@ -29,11 +29,12 @@ export class CreateProductDto {
   isbn?: string;
 
 
-  @ApiProperty({ type: Number })
+  @ApiPropertyOptional({ default: 0 })
+  @IsOptional()
   @Type(() => Number)
   @IsNumber()
   @Min(0)
-  purchasePrice!: number;
+  purchasePrice?: number;
 
   @ApiProperty({ type: Number })
   @Type(() => Number)
@@ -41,11 +42,12 @@ export class CreateProductDto {
   @Min(0)
   salePrice!: number;
 
-  @ApiProperty({ default: 0 })
+  @ApiPropertyOptional({ default: 0 })
+  @IsOptional()
   @Type(() => Number)
   @IsNumber()
   @Min(0)
-  stock!: number;
+  stock?: number;
 
   @ApiPropertyOptional({ default: 5 })
   @IsOptional()

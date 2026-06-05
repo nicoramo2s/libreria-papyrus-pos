@@ -3,13 +3,11 @@ import type { Category } from '@papyrus/shared';
 
 export interface CreateCategoryDto {
   name: string;
-  icon?: string;
   color?: string;
 }
 
 export interface UpdateCategoryDto {
   name?: string;
-  icon?: string;
   color?: string;
 }
 
