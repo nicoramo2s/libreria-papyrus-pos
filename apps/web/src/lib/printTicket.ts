@@ -169,7 +169,7 @@ function ticketHtml(sale: Sale, settings: Record<string, string>) {
 
   <hr class="divider-thick" />
 
-  <div class="title">Ticket de Venta</div>
+  <div class="title">Pedido</div>
 
   <div class="meta">
     <div class="meta-row"><span>Ticket</span><strong>${sale.ticketNumber}</strong></div>
