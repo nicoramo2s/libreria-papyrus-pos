@@ -50,7 +50,7 @@ export function Cart({
   return (
     <div className="sticky top-6 overflow-hidden rounded-2xl border border-border/80 bg-surface/90 shadow-papyrus">
       {/* Ticket header */}
-      <div className="border-b border-border/60 bg-primary px-4 py-3 text-white">
+      <div className="border-b border-border/60 bg-inverse px-4 py-3 text-white">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <ReceiptText className="h-4 w-4 text-gold" aria-hidden="true" />
@@ -64,7 +64,7 @@ export function Cart({
             disabled={items.length === 0}
             onClick={onClear}
             aria-label="Limpiar ticket"
-            className="h-7 border-white/15 bg-white/10 px-2 text-[10px] text-white hover:bg-white/20"
+            className="h-7 border-white/15 dark:border-white/20 dark:bg-white/5 bg-white/10 px-2 text-[10px] text-white hover:bg-white/20"
           >
             <Trash2 className="h-3 w-3" aria-hidden="true" />
           </Button>
@@ -112,7 +112,7 @@ export function Cart({
                 step="0.01"
                 value={discountAmount || ''}
                 onChange={(e) => onDiscountChange(Number(e.target.value || 0))}
-                className="h-7 w-full rounded-lg border border-border bg-white/80 px-1.5 pl-4 text-right text-xs font-bold tabular-nums text-primary outline-none transition hover:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30"
+                className="h-7 w-full rounded-lg border border-border dark:bg-surface/80 bg-white/80 px-1.5 pl-4 text-right text-xs font-bold tabular-nums text-primary outline-none transition hover:border-gold/60 focus-visible:ring-2 focus-visible:ring-gold/30"
               />
             </div>
           </div>

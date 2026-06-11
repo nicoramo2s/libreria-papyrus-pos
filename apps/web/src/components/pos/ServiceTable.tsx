@@ -18,11 +18,11 @@ export function ServiceTable({ services, isLoading, onAdd }: ServiceTableProps) 
         <div className="space-y-0 divide-y divide-border/40">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="flex animate-pulse items-center gap-3 px-3 py-2.5">
-              <div className="h-3.5 w-7 rounded-lg bg-primary/10" />
-              <div className="h-3.5 flex-1 rounded bg-primary/10" />
-              <div className="h-3.5 w-28 rounded bg-primary/10" />
-              <div className="h-3.5 w-16 rounded bg-primary/10" />
-              <div className="h-7 w-14 rounded-xl bg-primary/10" />
+              <div className="h-3.5 w-7 rounded-lg bg-inverse/10" />
+              <div className="h-3.5 flex-1 rounded bg-inverse/10" />
+              <div className="h-3.5 w-28 rounded bg-inverse/10" />
+              <div className="h-3.5 w-16 rounded bg-inverse/10" />
+              <div className="h-7 w-14 rounded-xl bg-inverse/10" />
             </div>
           ))}
         </div>

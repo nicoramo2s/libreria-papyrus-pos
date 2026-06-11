@@ -294,7 +294,7 @@ export default function ProductsPage() {
                       onClick={() => handlePageChange(pageNum)}
                       className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-semibold transition ${
                         isActive
-                          ? 'bg-primary text-white shadow-papyrus-sm'
+                          ? 'bg-inverse text-white shadow-papyrus-sm'
                           : 'text-primary/55 hover:bg-gold/10 hover:text-primary'
                       }`}
                     >

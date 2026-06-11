@@ -1,5 +1,7 @@
-import { Menu } from 'lucide-react';
+import { Menu, Moon, Sun } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { useThemeStore } from '../../store/themeStore';
+import { cn } from '../../lib/utils';
 
 const titles: Record<string, { eyebrow: string; title: string }> = {
   '/': { eyebrow: 'Resumen editorial', title: 'Dashboard' },
@@ -14,6 +16,7 @@ const titles: Record<string, { eyebrow: string; title: string }> = {
 export default function Header() {
   const location = useLocation();
   const title = titles[location.pathname] ?? titles['/'];
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
     <header className="sticky top-0 z-20 border-b border-border/80 bg-bg/80 px-4 py-4 backdrop-blur sm:px-6 lg:px-8">
@@ -25,6 +28,22 @@ export default function Header() {
           </div>
           <h2 className="mt-1 truncate text-2xl font-bold sm:text-3xl">{title.title}</h2>
         </div>
+        <button
+          onClick={toggleTheme}
+          className={cn(
+            'focus-ring flex h-9 w-9 shrink-0 items-center justify-center rounded-xl',
+            'text-primary/48 hover:bg-gold/10 hover:text-primary',
+            'transition-colors duration-200',
+          )}
+          title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+          aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+        >
+          {theme === 'dark' ? (
+            <Sun className="h-4 w-4" aria-hidden="true" />
+          ) : (
+            <Moon className="h-4 w-4" aria-hidden="true" />
+          )}
+        </button>
       </div>
     </header>
   );

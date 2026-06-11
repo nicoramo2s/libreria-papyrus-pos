@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
 
-import { useSales, useSaleDetail, useCancelSale, useReturnSale } from '@/hooks/useSales';
+import { useSales, useSaleDetail, useCancelSale, useReturnSale, useUpdatePayment } from '@/hooks/useSales';
 import { SalesTable } from '@/components/sales/SalesTable';
 import { SaleDetailModal } from '@/components/sales/SaleDetailModal';
 
@@ -45,6 +45,7 @@ export default function SalesPage() {
   // Mutations
   const { mutate: cancelSale, isPending: isCancelling } = useCancelSale();
   const { mutate: returnSale, isPending: isReturning } = useReturnSale();
+  const { mutate: updatePayment, isPending: isUpdatingPayment } = useUpdatePayment();
 
   // Handlers
   const handleFiltersChange = useCallback(
@@ -116,6 +117,27 @@ export default function SalesPage() {
     [selectedSaleId, returnSale],
   );
 
+  const handleUpdatePayment = useCallback(
+    (paymentMethod: string, cashReceived?: number) => {
+      if (!selectedSaleId) return;
+      updatePayment(
+        { id: selectedSaleId, paymentMethod, cashReceived },
+        {
+          onSuccess: () => {
+            toast.success('Método de pago actualizado');
+          },
+          onError: (error) => {
+            const message =
+              (error as any)?.response?.data?.message ??
+              'Error al actualizar el método de pago';
+            toast.error(message);
+          },
+        },
+      );
+    },
+    [selectedSaleId, updatePayment],
+  );
+
   const sales = data?.data ?? [];
   const total = data?.total ?? 0;
 
@@ -150,8 +172,10 @@ export default function SalesPage() {
           onClose={handleCloseDetail}
           onCancel={handleCancel}
           onReturn={handleReturn}
+          onUpdatePayment={handleUpdatePayment}
           isCancelling={isCancelling}
           isReturning={isReturning}
+          isUpdatingPayment={isUpdatingPayment}
         />
       ) : null}
     </div>

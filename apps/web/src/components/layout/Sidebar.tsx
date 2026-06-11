@@ -35,7 +35,7 @@ export default function Sidebar() {
               cn(
                 'focus-ring group flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-primary/68',
                 'hover:bg-gold/10 hover:text-primary',
-                isActive && 'bg-primary text-white shadow-papyrus-sm hover:bg-primary hover:text-white',
+                isActive && 'bg-inverse text-white shadow-papyrus-sm hover:bg-inverse hover:text-white',
               )
             }
           >
@@ -68,7 +68,7 @@ export default function Sidebar() {
               </NavLink>
               <button
                 onClick={logout}
-                className="focus-ring flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-primary/48 hover:bg-red-50 hover:text-red-600"
+                className="focus-ring flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-primary/48 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600"
                 title="Cerrar sesión"
               >
                 <LogOut className="h-4 w-4" />

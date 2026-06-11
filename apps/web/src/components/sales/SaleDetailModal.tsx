@@ -4,6 +4,7 @@ import {
   Banknote,
   Ban,
   CreditCard,
+  Edit3,
   Landmark,
   Loader2,
   Percent,
@@ -49,8 +50,10 @@ interface SaleDetailModalProps {
   onClose: () => void;
   onCancel: (reason: string) => void;
   onReturn: (reason: string, items: Array<{ productId: string; quantity: number }>) => void;
+  onUpdatePayment: (paymentMethod: string, cashReceived?: number) => void;
   isCancelling: boolean;
   isReturning: boolean;
+  isUpdatingPayment: boolean;
 }
 
 export function SaleDetailModal({
@@ -59,15 +62,20 @@ export function SaleDetailModal({
   onClose,
   onCancel,
   onReturn,
+  onUpdatePayment,
   isCancelling,
   isReturning,
+  isUpdatingPayment,
 }: SaleDetailModalProps) {
   const [showCancel, setShowCancel] = useState(false);
   const [showReturn, setShowReturn] = useState(false);
+  const [editingPayment, setEditingPayment] = useState(false);
+  const [editPaymentMethod, setEditPaymentMethod] = useState<string>('CASH');
+  const [editCashReceived, setEditCashReceived] = useState('');
 
   if (isLoading || !sale) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/50 p-4 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-inverse/50 p-4 backdrop-blur-sm">
         <Card className="flex h-64 w-full max-w-2xl items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-gold" />
         </Card>
@@ -82,26 +90,39 @@ export function SaleDetailModal({
   const PaymentIcon = paymentIcons[sale.paymentMethod] ?? Banknote;
   const canCancel = sale.status === 'COMPLETED';
   const canReturn = sale.status === 'COMPLETED' || sale.status === 'RETURNED';
+  const isCompleted = sale.status === 'COMPLETED';
 
   // Items that have products (can be returned)
   const returnableItems = sale.items.filter(
     (item) => item.productId && item.itemType === 'PRODUCT',
   );
 
+  const handleStartEditPayment = () => {
+    setEditPaymentMethod(sale.paymentMethod);
+    setEditCashReceived(sale.cashReceived ? String(sale.cashReceived) : '');
+    setEditingPayment(true);
+  };
+
+  const handleSavePayment = () => {
+    const cashValue = editCashReceived ? Number(editCashReceived) : undefined;
+    onUpdatePayment(editPaymentMethod, cashValue);
+    setEditingPayment(false);
+  };
+
   return (
     <>
       <div
-        className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-primary/50 p-3 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-inverse/50 p-3 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
       >
         <div className="my-6 w-full max-w-3xl overflow-hidden rounded-xl border border-gold/20 bg-surface/90 shadow-papyrus">
           {/* Header */}
-          <div className="relative border-b border-border bg-primary px-5 py-4 text-white sm:px-6">
+          <div className="relative border-b border-border bg-inverse px-5 py-4 text-white sm:px-6">
             <Button
               variant="ghost"
               size="sm"
-              className="absolute right-3 top-3 h-8 w-8 px-0 text-white hover:bg-white/10"
+              className="absolute right-3 top-3 h-8 w-8 px-0 text-white dark:hover:bg-white/5 hover:bg-white/10"
               onClick={onClose}
             >
               <ArrowLeft className="h-4 w-4" />
@@ -156,19 +177,98 @@ export function SaleDetailModal({
               </div>
 
               <div className="rounded-xl border border-border bg-bg/60 p-3">
-                <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-primary/45">
-                  <PaymentIcon className="h-3.5 w-3.5 text-gold" />
-                  Método
+                <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-primary/45">
+                    <PaymentIcon className="h-3.5 w-3.5 text-gold" />
+                    Método
+                  </div>
+                  {isCompleted && !editingPayment ? (
+                    <button
+                      type="button"
+                      onClick={handleStartEditPayment}
+                      className="focus-ring flex h-5 w-5 items-center justify-center rounded text-primary/30 transition hover:bg-gold/10 hover:text-gold"
+                      title="Cambiar método de pago"
+                    >
+                      <Edit3 className="h-3 w-3" />
+                    </button>
+                  ) : null}
                 </div>
-                <p className="mt-1.5 text-sm font-bold text-primary">
-                  {paymentLabels[sale.paymentMethod] ?? sale.paymentMethod}
-                </p>
-                {sale.cashReceived ? (
-                  <p className="mt-0.5 text-[11px] text-primary/50">
-                    Rec.: {currency.format(sale.cashReceived)} · Vuelto:{' '}
-                    {currency.format(sale.changeGiven ?? 0)}
-                  </p>
-                ) : null}
+                {editingPayment ? (
+                  <div className="mt-2 space-y-2">
+                    <div className="flex gap-1">
+                      {(['CASH', 'CARD', 'TRANSFER'] as const).map((method) => {
+                        const Icon = paymentIcons[method];
+                        const isActive = editPaymentMethod === method;
+                        return (
+                          <button
+                            key={method}
+                            type="button"
+                            onClick={() => setEditPaymentMethod(method)}
+                            className={`flex flex-1 flex-col items-center gap-0.5 rounded-lg border py-1.5 text-[10px] font-bold uppercase tracking-wide transition ${
+                              isActive
+                                ? 'border-gold bg-gold/15 text-gold'
+                                : 'border-border/60 text-primary/50 hover:border-gold/50 hover:text-primary'
+                            }`}
+                          >
+                            <Icon className="h-3.5 w-3.5" />
+                            {paymentLabels[method]}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {editPaymentMethod === 'CASH' ? (
+                      <div>
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          placeholder="Efectivo recibido"
+                          value={editCashReceived}
+                          onChange={(e) => setEditCashReceived(e.target.value)}
+                          className="focus-ring h-7 w-full rounded-lg border border-border bg-surface px-2 text-xs text-primary outline-none transition hover:border-gold/60"
+                        />
+                        {Number(editCashReceived || 0) >= sale.total ? (
+                          <p className="mt-1 text-[10px] text-success">
+                            Vuelto: {currency.format(Number(editCashReceived || 0) - sale.total)}
+                          </p>
+                        ) : Number(editCashReceived || 0) > 0 ? (
+                          <p className="mt-1 text-[10px] text-danger">
+                            Faltan {currency.format(sale.total - Number(editCashReceived || 0))}
+                          </p>
+                        ) : null}
+                      </div>
+                    ) : null}
+                    <div className="flex gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setEditingPayment(false)}
+                        className="focus-ring flex-1 rounded-lg border border-border px-2 py-1 text-[10px] font-semibold text-primary/60 transition hover:bg-gold/10 hover:text-primary"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleSavePayment}
+                        disabled={isUpdatingPayment}
+                        className="focus-ring flex-1 rounded-lg bg-gold px-2 py-1 text-[10px] font-bold text-white shadow-sm transition hover:bg-gold/90 disabled:opacity-60"
+                      >
+                        {isUpdatingPayment ? 'Guardando…' : 'Guardar'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <p className="mt-1.5 text-sm font-bold text-primary">
+                      {paymentLabels[sale.paymentMethod] ?? sale.paymentMethod}
+                    </p>
+                    {sale.cashReceived ? (
+                      <p className="mt-0.5 text-[11px] text-primary/50">
+                        Rec.: {currency.format(sale.cashReceived)} · Vuelto:{' '}
+                        {currency.format(sale.changeGiven ?? 0)}
+                      </p>
+                    ) : null}
+                  </>
+                )}
               </div>
 
               <div className="rounded-xl border border-border bg-bg/60 p-3">
@@ -210,7 +310,7 @@ export function SaleDetailModal({
                 {sale.items.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between rounded-lg border border-border bg-white/80 p-3"
+                    className="flex items-center justify-between rounded-lg border border-border dark:bg-surface/80 bg-white/80 p-3"
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">

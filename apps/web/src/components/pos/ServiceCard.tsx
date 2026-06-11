@@ -15,7 +15,7 @@ export function ServiceCard({ service, onAdd }: ServiceCardProps) {
     <Card className="group overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-papyrus">
       <CardContent className="p-3 sm:p-5">
         <div className="flex items-start gap-3 sm:gap-4">
-          <div className="rounded-xl bg-primary p-2 text-gold shadow-papyrus-sm transition group-hover:scale-105 sm:rounded-2xl sm:p-3">
+          <div className="rounded-xl bg-inverse p-2 text-gold shadow-papyrus-sm transition group-hover:scale-105 sm:rounded-2xl sm:p-3">
             <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </div>
           <div className="min-w-0 flex-1">

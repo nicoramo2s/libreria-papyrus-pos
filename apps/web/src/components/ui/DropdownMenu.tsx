@@ -68,7 +68,7 @@ function DropdownMenuContent({
   return (
     <div
       className={cn(
-        "absolute z-50 mt-1 min-w-[8rem] rounded-md border border-gray-200 bg-white py-1 shadow-lg",
+        "absolute z-50 mt-1 min-w-[8rem] rounded-md border border-gray-200 dark:border-border dark:bg-surface bg-white py-1 shadow-lg",
         alignClass,
         className,
       )}
@@ -94,7 +94,7 @@ function DropdownMenuItem({
   return (
     <div
       className={cn(
-        "flex cursor-pointer select-none items-center px-3 py-2 text-sm text-gray-700 hover:bg-gray-100",
+        "flex cursor-pointer select-none items-center px-3 py-2 text-sm text-gray-700 dark:text-primary/70 hover:bg-gray-100 dark:hover:bg-inverse/10",
         disabled && "pointer-events-none opacity-50",
         className,
       )}
@@ -111,7 +111,7 @@ function DropdownMenuItem({
 }
 
 function DropdownMenuSeparator({ className }: { className?: string }) {
-  return <div className={cn("my-1 h-px bg-gray-200", className)} />;
+  return <div className={cn("my-1 h-px bg-gray-200 dark:bg-border", className)} />;
 }
 
 function DropdownMenuLabel({
@@ -124,7 +124,7 @@ function DropdownMenuLabel({
   return (
     <div
       className={cn(
-        "px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide",
+        "px-3 py-1.5 text-xs font-semibold text-primary/50 uppercase tracking-wide",
         className,
       )}
     >
@@ -145,7 +145,7 @@ const DropdownMenuRadioGroup = ({
 }) => <>{children}</>;
 const DropdownMenuRadioItem = DropdownMenuItem;
 const DropdownMenuShortcut = ({ children }: { children: React.ReactNode }) => (
-  <span className="ml-auto text-xs text-gray-400">{children}</span>
+  <span className="ml-auto text-xs text-primary/40">{children}</span>
 );
 const DropdownMenuSub = ({ children }: { children: React.ReactNode }) => (
   <>{children}</>

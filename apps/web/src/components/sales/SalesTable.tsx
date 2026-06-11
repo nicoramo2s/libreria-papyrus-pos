@@ -119,7 +119,7 @@ export function SalesTable({
             placeholder="PAP-00001..."
             value={filters.search}
             onChange={(e) => updateFilter('search', e.target.value)}
-            className="h-8 w-full min-w-[120px] rounded-lg border border-border bg-white pl-8 pr-3 text-xs font-medium text-primary outline-none transition placeholder:text-primary/30 focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-36"
+            className="h-8 w-full min-w-[120px] rounded-lg border border-border dark:bg-surface bg-white pl-8 pr-3 text-xs font-medium text-primary outline-none transition placeholder:text-primary/30 focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-36"
           />
         </div>
 
@@ -177,14 +177,14 @@ export function SalesTable({
             type="date"
             value={filters.from}
             onChange={(e) => updateFilter('from', e.target.value)}
-            className="h-8 w-28 rounded-lg border border-border bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-32"
+            className="h-8 w-28 rounded-lg border border-border dark:bg-surface bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-32"
           />
           <span className="text-[10px] text-primary/40">a</span>
           <input
             type="date"
             value={filters.to}
             onChange={(e) => updateFilter('to', e.target.value)}
-            className="h-8 w-28 rounded-lg border border-border bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-32"
+            className="h-8 w-28 rounded-lg border border-border dark:bg-surface bg-white px-2 text-xs font-medium text-primary outline-none transition focus:border-gold focus:ring-1 focus:ring-gold/20 sm:w-32"
           />
         </div>
 
@@ -375,7 +375,7 @@ export function SalesTable({
                     className={cn(
                       'flex h-7 w-7 items-center justify-center rounded-lg text-[11px] font-semibold transition focus:outline-none focus:ring-1 focus:ring-gold/30',
                       page === pageNum
-                        ? 'bg-primary text-white'
+                        ? 'bg-inverse text-white'
                         : 'text-primary/55 hover:bg-gold/10 hover:text-primary',
                     )}
                     onClick={() => onPageChange(pageNum)}

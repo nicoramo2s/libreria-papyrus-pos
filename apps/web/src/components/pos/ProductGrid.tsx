@@ -14,7 +14,7 @@ export function ProductGrid({ products, isLoading, onAdd }: ProductGridProps) {
     return (
       <div className="grid gap-4 xl:grid-cols-2">
         {Array.from({ length: 6 }).map((_, index) => (
-          <Card key={index} className="h-36 animate-pulse bg-white/70" />
+          <Card key={index} className="h-36 animate-pulse dark:bg-surface/80 bg-white/70" />
         ))}
       </div>
     );

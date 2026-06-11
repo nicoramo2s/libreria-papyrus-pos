@@ -16,11 +16,10 @@ export function SaleSuccessModal({ sale, onClose }: SaleSuccessModalProps) {
     return null;
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+  return (      <div className="fixed inset-0 z-50 flex items-center justify-center bg-inverse/50 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
       <Card className="w-full max-w-md overflow-hidden border-gold/30 shadow-papyrus">
-        <div className="relative bg-primary p-6 text-center text-white">
-          <Button variant="ghost" size="sm" className="absolute right-3 top-3 h-9 w-9 px-0 text-white hover:bg-white/10" onClick={onClose} aria-label="Cerrar comprobante">
+        <div className="relative bg-inverse p-6 text-center text-white">
+          <Button variant="ghost" size="sm" className="absolute right-3 top-3 h-9 w-9 px-0 text-white dark:hover:bg-white/5 hover:bg-white/10" onClick={onClose} aria-label="Cerrar comprobante">
             <X className="h-4 w-4" aria-hidden="true" />
           </Button>
           <CheckCircle2 className="mx-auto h-14 w-14 text-gold" aria-hidden="true" />

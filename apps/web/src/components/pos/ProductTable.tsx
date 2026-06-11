@@ -78,11 +78,11 @@ export function ProductTable({ products, isLoading, onAdd, search, onSearchChang
         <div className="space-y-0 divide-y divide-border">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="flex animate-pulse items-center gap-3 px-3 py-2.5">
-              <div className="h-5 w-6 rounded bg-primary/10" />
-              <div className="h-3.5 flex-1 rounded bg-primary/10" />
-              <div className="h-3.5 w-20 rounded bg-primary/10" />
-              <div className="h-3.5 w-16 rounded bg-primary/10" />
-              <div className="h-5 w-10 rounded-md bg-primary/10" />
+              <div className="h-5 w-6 rounded bg-inverse/10" />
+              <div className="h-3.5 flex-1 rounded bg-inverse/10" />
+              <div className="h-3.5 w-20 rounded bg-inverse/10" />
+              <div className="h-3.5 w-16 rounded bg-inverse/10" />
+              <div className="h-5 w-10 rounded-md bg-inverse/10" />
             </div>
           ))}
         </div>

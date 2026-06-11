@@ -215,7 +215,7 @@ export default function ProfitabilityCard() {
                   value={`${data.margin}%`}
                   sub={data.margin >= 30 ? 'Excelente' : data.margin >= 15 ? 'Aceptable' : 'Revisar costos'}
                   icon={Percent}
-                  color="bg-primary/10 text-primary"
+                  color="bg-inverse/10 text-primary"
                 />
               </div>
             </div>

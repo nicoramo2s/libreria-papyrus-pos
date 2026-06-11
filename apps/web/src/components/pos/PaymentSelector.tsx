@@ -35,7 +35,7 @@ export function PaymentSelector({ paymentMethod, onPaymentMethodChange, cashRece
               'focus-ring rounded-xl border py-2 text-center text-[10px] font-black uppercase tracking-[0.15em] transition',
               paymentMethod === option.method
                 ? 'border-gold bg-gold/15 text-primary shadow-papyrus-sm'
-                : 'border-border bg-white/68 text-primary/55 hover:border-gold/50',
+                : 'border-border dark:bg-surface/80 bg-white/68 text-primary/55 hover:border-gold/50',
             )}
             onClick={() => onPaymentMethodChange(option.method)}
           >
@@ -57,7 +57,7 @@ export function PaymentSelector({ paymentMethod, onPaymentMethodChange, cashRece
             onChange={(event) => onCashReceivedChange(event.target.value)}
             error={isCashShort ? 'El efectivo no alcanza para cerrar la venta.' : undefined}
           />
-          <div className="mt-2 flex items-center justify-between rounded-lg bg-white px-2.5 py-1.5 text-xs">
+          <div className="mt-2 flex items-center justify-between rounded-lg dark:bg-surface bg-white px-2.5 py-1.5 text-xs">
             <span className="font-semibold text-primary/58">Vuelto</span>
             <span className={cn('font-black', change < 0 ? 'text-danger' : 'text-success')}>{currency.format(Math.max(0, change))}</span>
           </div>

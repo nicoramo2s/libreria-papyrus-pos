@@ -151,7 +151,7 @@ export default function POSPage() {
                   onClick={() => setActiveTab('products')}
                   className={cn(
                     'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition',
-                    activeTab === 'products' ? 'bg-primary text-white shadow-sm' : 'text-primary/55 hover:text-primary',
+                    activeTab === 'products' ? 'bg-inverse text-white shadow-sm' : 'text-primary/55 hover:text-primary',
                   )}
                 >
                   <BookOpenCheck className="h-3.5 w-3.5" />
@@ -162,7 +162,7 @@ export default function POSPage() {
                   onClick={() => setActiveTab('services')}
                   className={cn(
                     'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition',
-                    activeTab === 'services' ? 'bg-primary text-white shadow-sm' : 'text-primary/55 hover:text-primary',
+                    activeTab === 'services' ? 'bg-inverse text-white shadow-sm' : 'text-primary/55 hover:text-primary',
                   )}
                 >
                   <Sparkles className="h-3.5 w-3.5" />
@@ -180,7 +180,7 @@ export default function POSPage() {
                     'shrink-0 rounded-full border px-3 py-1 text-[11px] font-bold tracking-wide transition',
                     selectedCategoryId === categoryAll
                       ? 'border-gold bg-gold/15 text-primary'
-                      : 'border-border/60 bg-white/70 text-primary/50 hover:border-gold/50 hover:text-primary',
+                      : 'border-border/60 dark:bg-surface/80 bg-white/70 text-primary/50 hover:border-gold/50 hover:text-primary',
                   )}
                   onClick={() => setSelectedCategoryId(categoryAll)}
                 >
@@ -194,7 +194,7 @@ export default function POSPage() {
                       'shrink-0 rounded-full border px-3 py-1 text-[11px] font-bold tracking-wide transition',
                       selectedCategoryId === cat.id
                         ? 'border-gold bg-gold/15 text-primary'
-                        : 'border-border/60 bg-white/70 text-primary/50 hover:border-gold/50 hover:text-primary',
+                        : 'border-border/60 dark:bg-surface/80 bg-white/70 text-primary/50 hover:border-gold/50 hover:text-primary',
                     )}
                     onClick={() => setSelectedCategoryId(cat.id)}
                   >

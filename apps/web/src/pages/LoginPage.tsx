@@ -51,11 +51,11 @@ export default function LoginPage() {
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg px-4 py-10">
       <div className="absolute left-8 top-8 h-44 w-44 rounded-full bg-gold/20 blur-3xl" />
-      <div className="absolute bottom-8 right-8 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+      <div className="absolute bottom-8 right-8 h-64 w-64 rounded-full bg-inverse/10 blur-3xl" />
       <section className="relative grid w-full max-w-6xl overflow-hidden rounded-[2rem] border border-border bg-surface/78 shadow-papyrus backdrop-blur lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="hidden min-h-[620px] flex-col justify-between bg-primary p-10 text-white lg:flex">
+        <div className="hidden min-h-[620px] flex-col justify-between bg-inverse p-10 text-white lg:flex">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/5 px-3 py-2 text-sm font-semibold text-gold-light">
+            <div className="inline-flex items-center gap-2 rounded-full border border-gold/40 dark:bg-surface/20 bg-white/5 px-3 py-2 text-sm font-semibold text-gold-light">
               <BookOpenCheck className="h-4 w-4" aria-hidden="true" />
               Papyrus Librería POS
             </div>
@@ -68,7 +68,7 @@ export default function LoginPage() {
           </div>
           <div className="grid grid-cols-3 gap-3 text-sm">
             {['Ventas claras', 'Stock cuidado', 'Reportes listos'].map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-white/72">
+              <div key={item} className="rounded-2xl border border-white/10 dark:border-white/5 dark:bg-surface/20 bg-white/5 p-4 text-white/72">
                 {item}
               </div>
             ))}

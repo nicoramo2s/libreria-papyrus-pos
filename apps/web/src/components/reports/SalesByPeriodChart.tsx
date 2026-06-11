@@ -15,6 +15,7 @@ import { TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useSalesByPeriod } from '@/hooks/useReports';
+import { useThemeStore } from '@/store/themeStore';
 
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat('es-AR', {
@@ -69,6 +70,7 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
 }
 
 export default function SalesByPeriodChart() {
+  const isDark = useThemeStore((state) => state.theme) === 'dark';
   const [groupBy, setGroupBy] = useState<GroupBy>('day');
   const [chartMode, setChartMode] = useState<ChartMode>('line');
   const [fromDate, setFromDate] = useState(() => {
@@ -112,8 +114,8 @@ export default function SalesByPeriodChart() {
               onClick={() => setChartMode('line')}
               className={`px-3 py-1.5 text-xs font-semibold transition ${
                 chartMode === 'line'
-                  ? 'bg-primary text-white'
-                  : 'bg-transparent text-primary/60 hover:bg-primary/5'
+                  ? 'bg-inverse text-white'
+                  : 'bg-transparent text-primary/60 hover:bg-inverse/5'
               }`}
             >
               Línea
@@ -122,8 +124,8 @@ export default function SalesByPeriodChart() {
               onClick={() => setChartMode('bar')}
               className={`px-3 py-1.5 text-xs font-semibold transition ${
                 chartMode === 'bar'
-                  ? 'bg-primary text-white'
-                  : 'bg-transparent text-primary/60 hover:bg-primary/5'
+                  ? 'bg-inverse text-white'
+                  : 'bg-transparent text-primary/60 hover:bg-inverse/5'
               }`}
             >
               Barras
@@ -203,17 +205,17 @@ export default function SalesByPeriodChart() {
             <ResponsiveContainer width="100%" height="100%">
               {chartMode === 'line' ? (
                 <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border, #e6dccb)" strokeOpacity={0.5} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#3a3430' : '#e6dccb'} strokeOpacity={0.5} />
                   <XAxis
                     dataKey="label"
-                    tick={{ fontSize: 11, fill: '#6b6258' }}
+                    tick={{ fontSize: 11, fill: isDark ? '#9e9488' : '#6b6258' }}
                     tickLine={false}
-                    axisLine={{ stroke: '#e6dccb' }}
+                    axisLine={{ stroke: isDark ? '#3a3430' : '#e6dccb' }}
                     interval="preserveStartEnd"
                   />
                   <YAxis
                     yAxisId="left"
-                    tick={{ fontSize: 11, fill: '#6b6258' }}
+                    tick={{ fontSize: 11, fill: isDark ? '#9e9488' : '#6b6258' }}
                     tickLine={false}
                     axisLine={false}
                     tickFormatter={(v: number) => formatCurrency(v)}
@@ -221,7 +223,7 @@ export default function SalesByPeriodChart() {
                   <YAxis
                     yAxisId="right"
                     orientation="right"
-                    tick={{ fontSize: 11, fill: '#6b6258' }}
+                    tick={{ fontSize: 11, fill: isDark ? '#9e9488' : '#6b6258' }}
                     tickLine={false}
                     axisLine={false}
                     allowDecimals={false}
@@ -229,7 +231,7 @@ export default function SalesByPeriodChart() {
                   <Tooltip content={<CustomTooltip />} />
                   <Legend
                     formatter={(value) => (value === 'total' ? 'Ingresos' : 'Transacciones')}
-                    wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
+                    wrapperStyle={{ fontSize: 12, paddingTop: 8, color: isDark ? '#e8e0d8' : undefined }}
                   />
                   <Line
                     yAxisId="left"
@@ -240,7 +242,7 @@ export default function SalesByPeriodChart() {
                     fill="#b8922a"
                     strokeWidth={2.5}
                     dot={{ r: 3, fill: '#b8922a', strokeWidth: 0 }}
-                    activeDot={{ r: 5, fill: '#b8922a', strokeWidth: 2, stroke: '#fff' }}
+                    activeDot={{ r: 5, fill: '#b8922a', strokeWidth: 2, stroke: isDark ? '#2a2420' : '#fff' }}
                   />
                   <Line
                     yAxisId="right"
@@ -251,22 +253,22 @@ export default function SalesByPeriodChart() {
                     fill="#2f6b3f"
                     strokeWidth={2}
                     dot={{ r: 3, fill: '#2f6b3f', strokeWidth: 0 }}
-                    activeDot={{ r: 5, fill: '#2f6b3f', strokeWidth: 2, stroke: '#fff' }}
+                    activeDot={{ r: 5, fill: '#2f6b3f', strokeWidth: 2, stroke: isDark ? '#2a2420' : '#fff' }}
                   />
                 </LineChart>
               ) : (
                 <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border, #e6dccb)" strokeOpacity={0.5} />
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#3a3430' : '#e6dccb'} strokeOpacity={0.5} />
                   <XAxis
                     dataKey="label"
-                    tick={{ fontSize: 11, fill: '#6b6258' }}
+                    tick={{ fontSize: 11, fill: isDark ? '#9e9488' : '#6b6258' }}
                     tickLine={false}
-                    axisLine={{ stroke: '#e6dccb' }}
+                    axisLine={{ stroke: isDark ? '#3a3430' : '#e6dccb' }}
                     interval="preserveStartEnd"
                   />
                   <YAxis
                     yAxisId="left"
-                    tick={{ fontSize: 11, fill: '#6b6258' }}
+                    tick={{ fontSize: 11, fill: isDark ? '#9e9488' : '#6b6258' }}
                     tickLine={false}
                     axisLine={false}
                     tickFormatter={(v: number) => formatCurrency(v)}
@@ -274,7 +276,7 @@ export default function SalesByPeriodChart() {
                   <YAxis
                     yAxisId="right"
                     orientation="right"
-                    tick={{ fontSize: 11, fill: '#6b6258' }}
+                    tick={{ fontSize: 11, fill: isDark ? '#9e9488' : '#6b6258' }}
                     tickLine={false}
                     axisLine={false}
                     allowDecimals={false}
@@ -282,7 +284,7 @@ export default function SalesByPeriodChart() {
                   <Tooltip content={<CustomTooltip />} />
                   <Legend
                     formatter={(value) => (value === 'total' ? 'Ingresos' : 'Transacciones')}
-                    wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
+                    wrapperStyle={{ fontSize: 12, paddingTop: 8, color: isDark ? '#e8e0d8' : undefined }}
                   />
                   <Bar
                     yAxisId="left"

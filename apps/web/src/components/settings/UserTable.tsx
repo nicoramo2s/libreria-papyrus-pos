@@ -34,7 +34,7 @@ export function UserTable({ users, onEdit, onToggleActive, isPending = false }: 
   return (
     <div className="w-full overflow-x-auto">
       <table className="w-full text-sm text-left rtl:text-right text-primary">
-        <thead className="text-xs uppercase text-primary bg-primary/[0.04]">
+        <thead className="text-xs uppercase text-primary bg-inverse/[0.04]">
           <tr>
             <th scope="col" className="px-6 py-3">Usuario</th>
             <th scope="col" className="px-6 py-3">Nombre</th>
@@ -46,7 +46,7 @@ export function UserTable({ users, onEdit, onToggleActive, isPending = false }: 
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="border-b border-border bg-surface hover:bg-primary/[0.02]">
+            <tr key={user.id} className="border-b border-border bg-surface hover:bg-inverse/[0.02]">
               <td className="px-6 py-4 font-medium text-primary">{user.username}</td>
               <td className="px-6 py-4 text-primary/75">{user.displayName}</td>
               <td className="px-6 py-4">

@@ -51,7 +51,7 @@ export function CartItem({ item, onIncrement, onDecrement, onSetQuantity, onRemo
     )}>
       {/* Quantity controls */}
       <div className="flex shrink-0 items-center">
-        <span className="flex items-center gap-px rounded-md border border-border/60 bg-white/70 px-1 py-0.5">
+        <span className="flex items-center gap-px rounded-md border border-border/60 dark:bg-surface/80 bg-white/70 px-1 py-0.5">
           <button
             type="button"
             onClick={() => onDecrement(item.id)}
@@ -70,7 +70,7 @@ export function CartItem({ item, onIncrement, onDecrement, onSetQuantity, onRemo
               onBlur={handleCommit}
               onKeyDown={handleKeyDown}
               autoFocus
-              className="h-5 w-8 rounded border border-gold/50 bg-white px-0.5 text-center text-[11px] font-bold tabular-nums text-primary outline-none ring-1 ring-gold/30"
+              className="h-5 w-8 rounded border border-gold/50 dark:bg-surface bg-white px-0.5 text-center text-[11px] font-bold tabular-nums text-primary outline-none ring-1 ring-gold/30"
             />
           ) : (
             <span

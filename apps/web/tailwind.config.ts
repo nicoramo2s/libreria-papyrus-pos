@@ -1,26 +1,29 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        primary: '#1A1A1A',
-        gold: '#B8922A',
-        'gold-light': '#D9BE6C',
-        bg: '#F5F0E8',
-        surface: '#FFFFFF',
-        border: '#E6DCCB',
-        danger: '#B42318',
-        success: '#2F6B3F',
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        gold: 'rgb(var(--color-gold) / <alpha-value>)',
+        'gold-light': 'rgb(var(--color-gold-light) / <alpha-value>)',
+        bg: 'rgb(var(--color-bg) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        danger: 'rgb(var(--color-danger) / <alpha-value>)',
+        success: 'rgb(var(--color-success) / <alpha-value>)',
+        inverse: 'rgb(var(--color-inverse) / <alpha-value>)',
       },
       fontFamily: {
         heading: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        papyrus: '0 18px 50px rgba(26, 26, 26, 0.08)',
-        'papyrus-sm': '0 10px 30px rgba(26, 26, 26, 0.06)',
+        papyrus: 'var(--shadow-papyrus)',
+        'papyrus-sm': 'var(--shadow-papyrus-sm)',
+        'papyrus-lg': 'var(--shadow-papyrus-lg)',
       },
       backgroundImage: {
         'paper-grain':

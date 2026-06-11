@@ -49,6 +49,11 @@ export interface ReturnItemPayload {
   quantity: number;
 }
 
+export interface UpdatePaymentPayload {
+  paymentMethod: string;
+  cashReceived?: number;
+}
+
 export interface ReturnSalePayload {
   reason: string;
   items: ReturnItemPayload[];
@@ -94,6 +99,11 @@ export const salesService = {
 
   returnSale: async (id: string, payload: ReturnSalePayload): Promise<Sale> => {
     const { data } = await api.post<Sale>(`/sales/${id}/return`, payload);
+    return data;
+  },
+
+  updatePayment: async (id: string, payload: UpdatePaymentPayload): Promise<Sale> => {
+    const { data } = await api.patch<Sale>(`/sales/${id}/payment`, payload);
     return data;
   },
 };

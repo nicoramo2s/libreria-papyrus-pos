@@ -32,7 +32,7 @@ export function CancelSaleModal({
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-primary/50 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-inverse/50 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
     >
@@ -41,7 +41,7 @@ export function CancelSaleModal({
           <Button
             variant="ghost"
             size="sm"
-            className="absolute right-3 top-3 h-9 w-9 px-0 text-white hover:bg-white/10"
+            className="absolute right-3 top-3 h-9 w-9 px-0 text-white dark:hover:bg-white/5 hover:bg-white/10"
             onClick={onCancel}
           >
             <X className="h-4 w-4" />

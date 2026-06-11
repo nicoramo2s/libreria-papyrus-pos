@@ -222,7 +222,7 @@ export default function StockLoadsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border/60 bg-white/70 p-4 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-border/60 dark:bg-surface/80 bg-white/70 p-4 shadow-sm">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-primary">Cargas de stock</h1>
           <p className="mt-1 text-xs text-primary/60">
@@ -309,7 +309,7 @@ export default function StockLoadsPage() {
                         value={item.unitCost}
                         onChange={(event) => updateItem(index, { unitCost: Math.max(0, Number(event.target.value) || 0) })}
                       />
-                      <div className="rounded-xl bg-white/70 px-2.5 py-1.5 border border-border/30 flex flex-col justify-center text-center">
+                      <div className="rounded-xl dark:bg-surface/80 bg-white/70 px-2.5 py-1.5 border border-border/30 flex flex-col justify-center text-center">
                         <p className="text-[10px] font-semibold text-primary/45">Subtotal</p>
                         <p className="mt-0.5 text-xs font-bold text-primary">{formatMoney(item.quantity * item.unitCost)}</p>
                         {selectedProduct ? (
@@ -436,7 +436,7 @@ export default function StockLoadsPage() {
             ) : (
               <div className="space-y-3">
                 {stockLoads.map((stockLoad) => (
-                  <article key={stockLoad.id} className="rounded-2xl border border-border/80 bg-white/70 p-4 shadow-sm">
+                  <article key={stockLoad.id} className="rounded-2xl border border-border/80 dark:bg-surface/80 bg-white/70 p-4 shadow-sm">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -577,7 +577,7 @@ export default function StockLoadsPage() {
 
 function Metric({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
-    <div className="rounded-xl bg-primary/5 px-2.5 py-1 border border-border/80 text-center">
+    <div className="rounded-xl bg-inverse/5 px-2.5 py-1 border border-border/80 text-center">
       <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-primary/45">{label}</p>
       <p className={cn('mt-0.5 text-xs font-black text-primary', strong && 'text-gold')}>
         {value}

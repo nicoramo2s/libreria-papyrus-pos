@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Param, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, Query, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { SalesService } from './sales.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { CreateReturnDto } from './dto/create-return.dto';
 import { CancelSaleDto } from './dto/cancel-sale.dto';
+import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 
 @ApiTags('Sales')
@@ -57,5 +58,11 @@ export class SalesController {
   @ApiOperation({ summary: 'Registrar devolución parcial' })
   returnSale(@Param('id') id: string, @Body() dto: CreateReturnDto, @CurrentUser() user: { id: string }) {
     return this.salesService.return(id, user.id, dto);
+  }
+
+  @Patch(':id/payment')
+  @ApiOperation({ summary: 'Cambiar método de pago de una venta completada' })
+  updatePayment(@Param('id') id: string, @Body() dto: UpdatePaymentDto, @CurrentUser() user: { id: string }) {
+    return this.salesService.updatePayment(id, user.id, dto);
   }
 }

@@ -357,6 +357,51 @@ export class SalesService {
     });
   }
 
+  async updatePayment(id: string, userId: string, dto: { paymentMethod: string; cashReceived?: number }) {
+    return this.prisma.$transaction(async (tx) => {
+      const sale = await tx.sale.findUnique({
+        where: { id },
+        select: { id: true, status: true, total: true, paymentMethod: true, cashReceived: true, changeGiven: true },
+      });
+
+      if (!sale) throw new NotFoundException('Venta no encontrada');
+      if (sale.status !== 'COMPLETED') {
+        throw new BadRequestException(
+          `No se puede cambiar el método de pago de una venta en estado "${sale.status}"`,
+        );
+      }
+
+      const total = Number(sale.total);
+      let cashReceived: number | null = null;
+      let changeGiven: number | null = null;
+
+      if (dto.paymentMethod === 'CASH') {
+        cashReceived = dto.cashReceived ?? total;
+        if (cashReceived < total) {
+          throw new BadRequestException(
+            `Monto recibido insuficiente. Total: $${total}, Recibido: $${cashReceived}`,
+          );
+        }
+        changeGiven = cashReceived - total;
+      }
+
+      return tx.sale.update({
+        where: { id },
+        data: {
+          paymentMethod: dto.paymentMethod as any,
+          cashReceived,
+          changeGiven,
+        },
+        select: {
+          id: true,
+          paymentMethod: true,
+          cashReceived: true,
+          changeGiven: true,
+        },
+      });
+    });
+  }
+
   // Helper: generate ticket number atomically
   private async generateTicketNumber(tx: Prisma.TransactionClient): Promise<string> {
     const prefixSetting = await tx.setting.findUnique({ where: { key: 'ticket_prefix' } });

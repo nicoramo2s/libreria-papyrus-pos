@@ -18,7 +18,7 @@ export function Checkbox({
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        'h-4 w-4 shrink-0 rounded border-primary bg-[var(--background)] transition-[background-color,_border-color] data-[state=checked]:bg-primary data-[state=checked]:border-primary',
+        'h-4 w-4 shrink-0 rounded border-primary bg-[var(--background)] transition-[background-color,_border-color] data-[state=checked]:bg-inverse data-[state=checked]:border-inverse',
         className,
       )}
       checked={checked}

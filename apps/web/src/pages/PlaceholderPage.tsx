@@ -14,7 +14,7 @@ export default function PlaceholderPage({ icon: Icon, eyebrow, title, descriptio
     <Card className="overflow-hidden">
       <CardContent className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[0.72fr_1fr] lg:p-10">
         <div className="rounded-[1.75rem] border border-gold/25 bg-gold/10 p-8">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-gold-light shadow-papyrus-sm">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-inverse text-gold-light shadow-papyrus-sm">
             <Icon className="h-7 w-7" aria-hidden="true" />
           </div>
           <Badge variant="gold" className="mt-8">{eyebrow}</Badge>

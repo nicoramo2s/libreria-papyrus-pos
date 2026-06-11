@@ -7,10 +7,16 @@
       name="description"
       content="Papyrus Librería POS: punto de venta, inventario y reportes para librerías con criterio editorial."
     />
-    <meta name="theme-color" content="#F5F0E8" />
+    <meta name="theme-color" content="#F5F0E8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1510" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>Papyrus Librería POS</title>
+    <script>
+      if (localStorage.getItem('papyrus-theme') === 'dark' || (!localStorage.getItem('papyrus-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

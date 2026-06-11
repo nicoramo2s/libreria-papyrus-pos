@@ -6,14 +6,34 @@
 
 :root {
   color-scheme: light;
-  --papyrus-bg: #f5f0e8;
-  --papyrus-surface: #ffffff;
-  --papyrus-text: #1a1a1a;
-  --papyrus-gold: #b8922a;
-  --papyrus-gold-light: #d9be6c;
-  --papyrus-border: #e6dccb;
-  --papyrus-danger: #b42318;
-  --papyrus-success: #2f6b3f;
+  --color-primary: 26 26 26;
+  --color-gold: 184 146 42;
+  --color-gold-light: 217 190 108;
+  --color-bg: 245 240 232;
+  --color-surface: 255 255 255;
+  --color-border: 230 220 203;
+  --color-danger: 180 35 24;
+  --color-success: 47 107 63;
+  --color-inverse: 26 26 26;
+  --shadow-papyrus: 0 18px 50px rgba(26, 26, 26, 0.08);
+  --shadow-papyrus-sm: 0 10px 30px rgba(26, 26, 26, 0.06);
+  --shadow-papyrus-lg: 0 25px 60px rgba(26, 26, 26, 0.12);
+}
+
+.dark {
+  color-scheme: dark;
+  --color-primary: 232 224 216;
+  --color-gold: 217 190 108;
+  --color-gold-light: 232 210 150;
+  --color-bg: 26 21 16;
+  --color-surface: 42 36 32;
+  --color-border: 58 52 48;
+  --color-danger: 252 129 120;
+  --color-success: 74 222 128;
+  --color-inverse: 35 30 26;
+  --shadow-papyrus: 0 18px 50px rgba(0, 0, 0, 0.4);
+  --shadow-papyrus-sm: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-papyrus-lg: 0 25px 60px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
@@ -35,7 +55,14 @@
     background:
       radial-gradient(circle at top left, rgba(217, 190, 108, 0.24), transparent 34rem),
       linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(245, 240, 232, 0.92)),
-      var(--papyrus-bg);
+      rgb(var(--color-bg));
+  }
+
+  .dark body {
+    background:
+      radial-gradient(circle at top left, rgba(217, 190, 108, 0.08), transparent 34rem),
+      linear-gradient(135deg, rgba(35, 30, 26, 0.95), rgba(26, 21, 16, 0.98)),
+      rgb(var(--color-bg));
   }
 
   h1,
@@ -53,6 +80,10 @@
 
   ::selection {
     background: rgba(184, 146, 42, 0.24);
+  }
+
+  .dark ::selection {
+    background: rgba(217, 190, 108, 0.3);
   }
 }
 

@@ -34,18 +34,18 @@ export function ConfirmDeleteModal({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogPortal>
         <DialogOverlay className="fixed inset-0 bg-black/50 z-50" />
-        <DialogContent className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6 shadow-xl">
+        <DialogContent className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg dark:bg-surface bg-white p-6 shadow-xl">
           {/* Header */}
           <div className="space-y-2 mb-4">
-            <DialogTitle className="text-lg font-semibold text-gray-900">
+            <DialogTitle className="text-lg font-semibold text-primary">
               {title}
             </DialogTitle>
-            <DialogDescription className="text-sm text-gray-600">
+            <DialogDescription className="text-sm text-primary/60">
               {description}
             </DialogDescription>
           </div>
           {/* Footer */}
-          <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3 pt-4 border-t border-gray-200">
+          <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3 pt-4 border-t border-border">
             <Button variant="secondary" onClick={onCancel}>
               {cancelText}
             </Button>

@@ -112,16 +112,16 @@ export function ReturnSaleModal({
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-primary/50 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-inverse/50 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
     >
       <Card className="w-full max-w-lg overflow-hidden border-gold/30 shadow-papyrus">
-        <div className="relative bg-primary p-6 text-white">
+        <div className="relative bg-inverse p-6 text-white">
           <Button
             variant="ghost"
             size="sm"
-            className="absolute right-3 top-3 h-9 w-9 px-0 text-white hover:bg-white/10"
+            className="absolute right-3 top-3 h-9 w-9 px-0 text-white dark:hover:bg-white/5 hover:bg-white/10"
             onClick={onCancel}
           >
             <X className="h-4 w-4" />
@@ -155,7 +155,7 @@ export function ReturnSaleModal({
                     'rounded-2xl border p-4 transition',
                     isSelected
                       ? 'border-gold/40 bg-gold/5'
-                      : 'border-border bg-white opacity-60',
+                      : 'border-border dark:bg-surface bg-white opacity-60',
                   )}
                 >
                   <div className="flex items-start gap-3">
@@ -179,7 +179,7 @@ export function ReturnSaleModal({
                           <div className="inline-flex items-center rounded-xl border border-border bg-bg p-1">
                             <button
                               type="button"
-                              className="focus-ring flex h-8 w-8 items-center justify-center rounded-lg text-primary transition hover:bg-white"
+                              className="focus-ring flex h-8 w-8 items-center justify-center rounded-lg text-primary transition dark:hover:bg-surface/80 hover:bg-white"
                               onClick={() =>
                                 updateQuantity(item.productId!, -1)
                               }
@@ -192,7 +192,7 @@ export function ReturnSaleModal({
                             </span>
                             <button
                               type="button"
-                              className="focus-ring flex h-8 w-8 items-center justify-center rounded-lg text-primary transition hover:bg-white"
+                              className="focus-ring flex h-8 w-8 items-center justify-center rounded-lg text-primary transition dark:hover:bg-surface/80 hover:bg-white"
                               onClick={() =>
                                 updateQuantity(item.productId!, 1)
                               }

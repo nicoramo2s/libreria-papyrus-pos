@@ -25,8 +25,9 @@ export function useCancelSale() {
   return useMutation({
     mutationFn: ({ id, reason }: { id: string; reason: string }) =>
       salesService.cancelSale(id, { reason }),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['sales'] });
+      queryClient.invalidateQueries({ queryKey: ['sale', variables.id] });
     },
   });
 }
@@ -44,8 +45,29 @@ export function useReturnSale() {
       reason: string;
       items: Array<{ productId: string; quantity: number }>;
     }) => salesService.returnSale(id, { reason, items }),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['sales'] });
+      queryClient.invalidateQueries({ queryKey: ['sale', variables.id] });
+    },
+  });
+}
+
+export function useUpdatePayment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      paymentMethod,
+      cashReceived,
+    }: {
+      id: string;
+      paymentMethod: string;
+      cashReceived?: number;
+    }) => salesService.updatePayment(id, { paymentMethod, cashReceived }),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['sales'] });
+      queryClient.invalidateQueries({ queryKey: ['sale', variables.id] });
     },
   });
 }
