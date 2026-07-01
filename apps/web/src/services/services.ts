@@ -5,12 +5,14 @@ export type CreateServiceData = {
   name: string;
   description?: string;
   basePrice: number;
+  purchaseCost?: number;
 };
 
 export type UpdateServiceData = {
   name?: string;
   description?: string;
   basePrice?: number;
+  purchaseCost?: number;
   isActive?: boolean;
 };
 

@@ -14,6 +14,7 @@ const serviceFormSchema = z.object({
   name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
   description: z.string().optional(),
   basePrice: z.coerce.number().positive('El precio debe ser mayor a 0'),
+  purchaseCost: z.coerce.number().min(0, 'El costo no puede ser negativo').optional(),
 });
 
 type ServiceFormValues = z.infer<typeof serviceFormSchema>;
@@ -61,6 +62,7 @@ export function ServiceForm({
       name: '',
       description: '',
       basePrice: 0,
+      purchaseCost: 0,
     },
   });
 
@@ -70,6 +72,7 @@ export function ServiceForm({
         name: service.name || '',
         description: service.description || '',
         basePrice: service.basePrice || 0,
+        purchaseCost: service.purchaseCost || 0,
       });
     }
   }, [service, form.reset]);
@@ -120,17 +123,28 @@ export function ServiceForm({
         </div>
       </SectionCard>
 
-      {/* Precio */}
-      <SectionCard icon={Coins} title="Precio">
-        <Input
-          label="Precio base *"
-          type="number"
-          step="0.01"
-          min="0"
-          placeholder="0.00"
-          error={form.formState.errors.basePrice?.message}
-          {...form.register('basePrice')}
-        />
+      {/* Precio y Costo */}
+      <SectionCard icon={Coins} title="Precio y Costo">
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            label="Precio base *"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+            error={form.formState.errors.basePrice?.message}
+            {...form.register('basePrice')}
+          />
+          <Input
+            label="Costo"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+            error={form.formState.errors.purchaseCost?.message}
+            {...form.register('purchaseCost')}
+          />
+        </div>
       </SectionCard>
 
       {/* Acciones */}

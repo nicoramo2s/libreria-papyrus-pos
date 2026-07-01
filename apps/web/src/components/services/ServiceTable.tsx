@@ -66,6 +66,9 @@ export function ServiceTable({
                 Precio base
               </th>
               <th className="px-5 py-3.5 text-left text-xs font-bold uppercase tracking-[0.12em] text-primary/50">
+                Costo
+              </th>
+              <th className="px-5 py-3.5 text-left text-xs font-bold uppercase tracking-[0.12em] text-primary/50">
                 Estado
               </th>
               <th className="px-5 py-3.5 text-right text-xs font-bold uppercase tracking-[0.12em] text-primary/50">
@@ -99,6 +102,13 @@ export function ServiceTable({
                 <td className="px-5 py-4">
                   <span className="font-semibold text-primary">
                     {formatCurrency(service.basePrice)}
+                  </span>
+                </td>
+                <td className="px-5 py-4">
+                  <span className="font-semibold text-primary/60">
+                    {service.purchaseCost > 0 ? formatCurrency(service.purchaseCost) : (
+                      <span className="text-primary/35">—</span>
+                    )}
                   </span>
                 </td>
                 <td className="px-5 py-4">

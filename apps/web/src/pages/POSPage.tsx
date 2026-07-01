@@ -7,6 +7,7 @@ import { Cart } from '../components/pos/Cart';
 import { ProductTable } from '../components/pos/ProductTable';
 import { SaleSuccessModal } from '../components/pos/SaleSuccessModal';
 import { ServiceTable } from '../components/pos/ServiceTable';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '../components/ui/Select';
 import { Button } from '../components/ui/Button';
 import { useCategories } from '../hooks/useCategories';
 import { useCreateSale } from '../hooks/useCreateSale';
@@ -171,37 +172,24 @@ export default function POSPage() {
               </div>
             </div>
 
-            {/* Category pills (only for products) */}
-            {activeTab === 'products' && (
-              <div className="flex gap-1.5 overflow-x-auto">
-                <button
-                  type="button"
-                  className={cn(
-                    'shrink-0 rounded-full border px-3 py-1 text-[11px] font-bold tracking-wide transition',
-                    selectedCategoryId === categoryAll
-                      ? 'border-gold bg-gold/15 text-primary'
-                      : 'border-border/60 dark:bg-surface/80 bg-white/70 text-primary/50 hover:border-gold/50 hover:text-primary',
-                  )}
-                  onClick={() => setSelectedCategoryId(categoryAll)}
-                >
-                  Todas
-                </button>
-                {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    className={cn(
-                      'shrink-0 rounded-full border px-3 py-1 text-[11px] font-bold tracking-wide transition',
-                      selectedCategoryId === cat.id
-                        ? 'border-gold bg-gold/15 text-primary'
-                        : 'border-border/60 dark:bg-surface/80 bg-white/70 text-primary/50 hover:border-gold/50 hover:text-primary',
-                    )}
-                    onClick={() => setSelectedCategoryId(cat.id)}
-                  >
-                    {cat.name}
-                  </button>
-                ))}
-              </div>
+            {/* Category filter (only for products) */}
+            {activeTab === 'products' && categories.length > 0 && (
+              <Select
+                value={selectedCategoryId}
+                onValueChange={(value) => setSelectedCategoryId(value)}
+              >
+                <SelectTrigger className="h-8 w-auto min-w-[120px] text-xs">
+                  <SelectValue placeholder="Todas las categorías" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={categoryAll}>Todas las categorías</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             )}
           </div>
 

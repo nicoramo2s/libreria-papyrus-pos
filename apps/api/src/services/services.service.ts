@@ -30,7 +30,12 @@ export class ServicesService {
 
   async create(dto: CreateServiceDto) {
     return this.prisma.service.create({
-      data: dto,
+      data: {
+        name: dto.name,
+        description: dto.description,
+        basePrice: dto.basePrice,
+        purchaseCost: dto.purchaseCost ?? 0,
+      },
       include: { variants: true },
     });
   }
@@ -39,7 +44,10 @@ export class ServicesService {
     await this.findOne(id);
     return this.prisma.service.update({
       where: { id },
-      data: dto,
+      data: {
+        ...dto,
+        purchaseCost: dto.purchaseCost,
+      },
       include: { variants: true },
     });
   }
@@ -64,7 +72,10 @@ export class ServicesService {
     await this.findOne(serviceId);
     return this.prisma.serviceVariant.create({
       data: {
-        ...dto,
+        name: dto.name,
+        description: dto.description,
+        price: dto.price,
+        purchaseCost: dto.purchaseCost ?? 0,
         serviceId,
       },
     });

@@ -39,6 +39,7 @@ export interface Service {
   name: string;
   description?: string;
   basePrice: number;
+  purchaseCost: number;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -51,5 +52,6 @@ export interface ServiceVariant {
   name: string;
   description?: string;
   price: number;
+  purchaseCost: number;
   createdAt: string;
 }

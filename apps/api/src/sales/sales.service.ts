@@ -67,7 +67,7 @@ export class SalesService {
             itemType: 'SERVICE' as SaleItemType,
             productName: service.name,
             productPrice: price,
-            purchasePrice: 0,
+            purchasePrice: Number(service.purchaseCost),
             quantity: item.quantity,
             subtotal: itemSubtotal,
             specifications: item.specifications,

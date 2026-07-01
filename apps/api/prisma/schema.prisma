@@ -118,13 +118,14 @@ model SaleItem {
 // ─── Servicios ──────────────────────────────────────────
 
 model Service {
-  id          String   @id @default(uuid())
-  name        String
-  description String?  @db.Text
-  basePrice   Decimal  @map("base_price") @db.Decimal(10, 2)
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(uuid())
+  name         String
+  description  String?  @db.Text
+  basePrice    Decimal  @map("base_price") @db.Decimal(10, 2)
+  purchaseCost Decimal  @default(0) @map("purchase_cost") @db.Decimal(10, 2)
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   variants  ServiceVariant[]
   saleItems SaleItem[]
@@ -133,12 +134,13 @@ model Service {
 }
 
 model ServiceVariant {
-  id          String   @id @default(uuid())
-  serviceId   String   @map("service_id")
-  name        String
-  description String?
-  price       Decimal  @db.Decimal(10, 2)
-  createdAt   DateTime @default(now()) @map("created_at")
+  id           String   @id @default(uuid())
+  serviceId    String   @map("service_id")
+  name         String
+  description  String?
+  price        Decimal  @db.Decimal(10, 2)
+  purchaseCost Decimal  @default(0) @map("purchase_cost") @db.Decimal(10, 2)
+  createdAt    DateTime @default(now()) @map("created_at")
 
   service Service @relation(fields: [serviceId], references: [id])
 

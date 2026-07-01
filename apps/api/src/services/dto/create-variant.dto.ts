@@ -17,4 +17,11 @@ export class CreateVariantDto {
   @IsNumber()
   @Min(0)
   price!: number;
+
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  purchaseCost?: number;
 }

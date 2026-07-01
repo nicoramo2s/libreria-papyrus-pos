@@ -20,6 +20,13 @@ export class UpdateServiceDto {
   @Min(0)
   basePrice?: number;
 
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  purchaseCost?: number;
+
   @ApiPropertyOptional()
   @IsOptional()
   @IsBoolean()
